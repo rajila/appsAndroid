@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Calculadora</string>
+    <string name="cero">0</string>
+    <string name="uno">1</string>
+    <string name="dos">2</string>
+    <string name="tres">3</string>
+    <string name="cuatro">4</string>
+    <string name="cinco">5</string>
+    <string name="seis">6</string>
+    <string name="siete">7</string>
+    <string name="ocho">8</string>
+    <string name="nueve">9</string>
+    <string name="punto">.</string>
+    <string name="mmas">M+</string>
+    <string name="mmenos">M-</string>
+    <string name="keyc">C</string>
+    <string name="keyce">CE</string>
+    <string name="keymasmenos">+/-</string>
+    <string name="keycuadrado">x\u00b2</string>
+    <string name="keyraiz">\u221a</string>
+    <string name="keyporcentaje">%</string>
+    <string name="keyoff">OFF</string>
+    <string name="keymas">+</string>
+    <string name="keymenos">-</string>
+    <string name="keymultiplicacion">*</string>
+    <string name="keydivision">/</string>
+    <string name="keyigual">=</string>
+    <string name="keydel">DEL</string>
+    <string name="keyPi">\u03c0</string>
+    <string name="key1x">1/x</string>
+    <string name="keysen">Sin</string>
+    <string name="keycos">Cos</string>
+    <string name="keytan">Tan</string>
+    <string name="keymc">MC</string>
+    <string name="keymr">MR</string>
+</resources>
