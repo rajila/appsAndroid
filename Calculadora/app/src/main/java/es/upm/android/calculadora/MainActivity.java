@@ -154,8 +154,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void actionCuadrado(View view)
     {
-        if( _txtResultado.getText().toString().contains(".") ) _txtResultado.setText(Math.pow(Double.parseDouble(_txtResultado.getText().toString()),2)+"");
-        else _txtResultado.setText((int)Math.pow(Integer.parseInt(_txtResultado.getText().toString()),2)+"");
+        operacionEspecial( Math.pow(Double.parseDouble(_txtResultado.getText().toString()),2) );
         actualizarVar();
     }
 
@@ -165,8 +164,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void actionRaiz(View view)
     {
-        if( _txtResultado.getText().toString().contains(".") ) _txtResultado.setText(Math.sqrt(Double.parseDouble(_txtResultado.getText().toString()))+"");
-        else _txtResultado.setText((int)Math.sqrt(Integer.parseInt(_txtResultado.getText().toString()))+"");
+        operacionEspecial( Math.sqrt(Double.parseDouble(_txtResultado.getText().toString())) );
         actualizarVar();
     }
 
@@ -176,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void actionSin(View view)
     {
-        _txtResultado.setText(Math.sin(Double.parseDouble(_txtResultado.getText().toString()))+"");
+        operacionEspecial( Math.sin(Double.parseDouble(_txtResultado.getText().toString())) );
         actualizarVar();
     }
 
@@ -186,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void actionCos(View view)
     {
-        _txtResultado.setText(Math.cos(Double.parseDouble(_txtResultado.getText().toString()))+"");
+        operacionEspecial( Math.cos(Double.parseDouble(_txtResultado.getText().toString())) );
         actualizarVar();
     }
 
@@ -196,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void actionTan(View view)
     {
-        _txtResultado.setText(Math.tan(Double.parseDouble(_txtResultado.getText().toString()))+"");
+        operacionEspecial( Math.tan(Double.parseDouble(_txtResultado.getText().toString())) );
         actualizarVar();
     }
 
@@ -216,8 +214,14 @@ public class MainActivity extends AppCompatActivity {
      */
     public void actionInversa(View view)
     {
-        _txtResultado.setText((1/Double.parseDouble(_txtResultado.getText().toString()))+"");
+        operacionEspecial( (1/Double.parseDouble(_txtResultado.getText().toString())) );
         actualizarVar();
+    }
+
+    private void operacionEspecial(Double _tmp)
+    {
+        if( _tmp == (int)(_tmp*1) ) _txtResultado.setText((int)(_tmp*1)+"");
+        else _txtResultado.setText(_tmp+"");
     }
 
     /**
