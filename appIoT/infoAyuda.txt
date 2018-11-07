@@ -1,0 +1,33 @@
+* Descargar el programa Android Things Console (https://partner.android.com/things/console/#/tools)
+
+* Descomprimir el archivo y ejecutar la version de w10 como super administrador y seguir los pasos para descargar y quemar la imagen del sistema operativo
+	(https://developer.android.com/things/hardware/raspberrypi)
+
+* Conexión a raspberry en Serie por Putty
+
+* Ejecutar comando, para iniciar session como superUsuario: su
+
+* Comando de configuración de acceso a Internet
+	am startservice -n com.google.wifisetup/.WifiSetupService -a WifiSetupService.Connect -e ssid rdajilaWifi -e passphrase XXXXXXXXXXX
+	
+* Luego de haber configurado el Wifi, reiniciar el SO de la Raspberry. Ejecutar el comando: 
+	reboot
+	
+* Ejecutar comando, para iniciar sesion como superUsuario: 
+	su
+
+* Obtener la Ip de la raspberry. Ejecutar el comando:
+	ifconfig
+	
+* Abrir un consola en w10 como superadministrador (cmd, boton derecho -> ejecutar como superadministrador)
+ 
+* Luego ir a la carpeta en donde descomprimio el programa Android Things Console y ubicarse en la carpeta (unzipped):
+	C:\Users\XXXXXXX\XXXXXXXXXXXX\android-things-setup-utility\quickstart-temp\unzipped
+	
+* Ejecutar el siguiente comando para conectar la raspberry a su ordenador (El ordenador y la raspberry deben estar dentro de la misma red)
+	adb connect IP-RASPBERRY
+	
+* Luego de haber realizado la conexion exitosamente, abrir el Android Studio y ejecutar el "Run", en donde debe aparecer la raspberry conectada con el siguiente nombre:
+	Google IoT_rpi3
+
+ 
