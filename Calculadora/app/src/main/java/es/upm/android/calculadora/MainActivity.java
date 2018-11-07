@@ -319,4 +319,10 @@ public class MainActivity extends AppCompatActivity {
         else _operandoTwo = null;
         _banderaEjecucion = true;
     }
+
+
+    public void nuevaFuncion(View view)
+    {
+        // logica del boton
+    }
 }
