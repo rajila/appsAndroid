@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <!--<fragment
+        android:id="@+id/_fragOne"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="50" />
+    <fragment
+        android:id="@+id/_fragTwo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="50"/>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="50"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/_btnFragMostrar"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="actionMostrarFragmento"
+            android:text="@string/mostrar_fragmento" />
+
+        <Button
+            android:id="@+id/_btnFragIntercambiar"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="actionIntercambiarFragmento"
+            android:text="@string/intercambiar_fragmento" />
+    </LinearLayout>
+</LinearLayout>
