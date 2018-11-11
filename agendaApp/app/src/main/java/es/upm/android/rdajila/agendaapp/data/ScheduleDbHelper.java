@@ -1,6 +1,7 @@
 package es.upm.android.rdajila.agendaapp.data;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -35,5 +36,18 @@ public class ScheduleDbHelper extends SQLiteOpenHelper
     {
         db.execSQL("DROP TABLE IF EXISTS " + ContactContract._TABLE_NAME);
         onCreate(db);
+    }
+
+    public Cursor getAllContacts()
+    {
+        return getReadableDatabase()
+                .query(
+                        ContactContract._TABLE_NAME,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null);
     }
 }
