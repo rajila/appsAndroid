@@ -1,4 +1,4 @@
-package es.upm.android.rdajila.agendaapp.util;
+package es.upm.android.rdajila.agendaapp.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
