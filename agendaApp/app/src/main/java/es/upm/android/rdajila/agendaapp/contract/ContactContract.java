@@ -11,4 +11,6 @@ public abstract class ContactContract implements BaseColumns
     public static final String _MOBILE = "mobile";
     public static final String _PHONE = "phone";
     public static final String _EMAIL = "email";
+
+    public static final String[] _GET_ALL_DATA = {_ID, _NAME, _DIRECTION, _MOBILE, _PHONE, _EMAIL};
 }

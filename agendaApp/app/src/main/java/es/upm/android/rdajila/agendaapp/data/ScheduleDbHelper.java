@@ -4,8 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import es.upm.android.rdajila.agendaapp.contract.ContactContract;
+import es.upm.android.rdajila.agendaapp.entity.Contact;
 
 public class ScheduleDbHelper extends SQLiteOpenHelper
 {
@@ -29,6 +31,35 @@ public class ScheduleDbHelper extends SQLiteOpenHelper
                 + ContactContract._PHONE + " VARCHAR(100),"
                 + ContactContract._EMAIL + " VARCHAR(100) NOT NULL)"
         );
+
+        // Insertar valores de inicio
+        //initData(db);
+        //Log.i("DB --> ","Ingreso DB");
+    }
+
+    private void initData(SQLiteDatabase db)
+    {
+        insertContactInit(db, new Contact("Ronald","Madrid","0989322323","0989322323","rdajila@gmail.com"));
+        insertContactInit(db, new Contact("Ronan","Leganes","0989322323","0989322323","ronan@gmail.com"));
+        insertContactInit(db, new Contact("Mafer","Guayaquil","0989322323","0989322323","mafer@gmail.com"));
+        insertContactInit(db, new Contact("Mariela","Guayaquil","0989322323","0989322323","mariela@gmail.com"));
+        insertContactInit(db, new Contact("Daniel","Guayaquil","0989322323","0989322323","daniel@gmail.com"));
+        insertContactInit(db, new Contact("Cindy","Guayaquil","0989322323","0989322323","cindy@gmail.com"));
+    }
+
+    private long insertContactInit(SQLiteDatabase db, Contact contacto)
+    {
+        long _id = db.insert(ContactContract._TABLE_NAME,null, contacto.createContentValue());
+        db.close();
+        return _id;
+    }
+
+    public long insertContact(Contact contacto)
+    {
+        SQLiteDatabase _db = getReadableDatabase();
+        long _id = _db.insert(ContactContract._TABLE_NAME,null, contacto.createContentValue());
+        _db.close();
+        return _id;
     }
 
     @Override
@@ -43,6 +74,7 @@ public class ScheduleDbHelper extends SQLiteOpenHelper
         return getReadableDatabase()
                 .query(
                         ContactContract._TABLE_NAME,
+                        ContactContract._GET_ALL_DATA,
                         null,
                         null,
                         null,

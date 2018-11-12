@@ -47,7 +47,10 @@ public class MainActivity extends AppCompatActivity
         _layoutContenido = (RelativeLayout) findViewById(R.id._contenidoLayout);
         _toolbarApp = (Toolbar) findViewById(R.id._toolbarApp);
 
+        _toolbarApp.setTitle(R.string.app_name);
+        _toolbarApp.inflateMenu(R.menu.menu_main);
+
         // Efecto de pantalla de inicio
-        _handler.postDelayed(_runnable, 6000); //2000 is the timeout for the splash
+        _handler.postDelayed(_runnable, 4000); //2000 is the timeout for the splash
     }
 }

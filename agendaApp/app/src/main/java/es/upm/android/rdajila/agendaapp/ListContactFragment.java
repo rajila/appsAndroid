@@ -32,23 +32,22 @@ public class ListContactFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        //getActivity().deleteDatabase(ContactContract._TABLE_NAME);
+        _db = new ScheduleDbHelper(getActivity());
+
         // Inflate the layout for this fragment
         View _viewLayout = inflater.inflate(R.layout.fragment_list_contact, container, false);
         _listContact = (ListView) _viewLayout.findViewById(R.id._listData);
-        _contactAdaptador = new ContactCursorAdapter(getActivity(),null);
-
+        //_contactAdaptador = new ContactCursorAdapter(getActivity(),null);
+        _contactAdaptador = new ContactCursorAdapter(getActivity(), _db.getAllContacts());
         _listContact.setAdapter(_contactAdaptador);
 
-        getActivity().deleteDatabase(ContactContract._TABLE_NAME);
-
-        _db = new ScheduleDbHelper(getActivity());
-
-        loadContacts();
+        //loadContacts();
 
         return _viewLayout;
     }
 
-    private void loadContacts()
+    /*private void loadContacts()
     {
         new ContactLoadTask().execute();
     }
@@ -68,5 +67,5 @@ public class ListContactFragment extends Fragment
                 // Mostrar empty state
             }
         }
-    }
+    }*/
 }
