@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ListContactFragment"
-    android:paddingTop="56dp">
+    android:paddingTop="?attr/actionBarSize">
 
     <ListView
         android:id="@+id/_listData"

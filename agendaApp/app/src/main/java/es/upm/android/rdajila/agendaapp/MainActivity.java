@@ -13,11 +13,11 @@ import android.support.v7.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity
 {
-    RelativeLayout _layoutContenido;
-    RelativeLayout _layoutInicio;
-    RelativeLayout _layoutPrincipal;
-    Toolbar _toolbarApp;
-    FloatingActionButton _btnAdd;
+    private RelativeLayout _layoutContenido;
+    private RelativeLayout _layoutInicio;
+    private RelativeLayout _layoutPrincipal;
+    private Toolbar _toolbarApp;
+    private FloatingActionButton _btnAdd;
 
     Handler _handler = new Handler();
 
