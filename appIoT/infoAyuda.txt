@@ -31,3 +31,13 @@
 	Google IoT_rpi3
 
  
+ 
+ 
+ 
+ https://github.com/androidthings/sample-button
+ 
+ 
+ ttyAMA0
+ 
+ 
+ https://github.com/survivingwithandroid/Surviving-with-android/tree/master/Things
