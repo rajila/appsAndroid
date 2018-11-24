@@ -2,6 +2,7 @@ package es.upm.android.iot.rdajila.practicaiotone;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.google.android.things.pio.Gpio;
@@ -27,6 +28,9 @@ import java.io.IOException;
  * is available.
  *
  * @see <a href="https://github.com/androidthings/contrib-drivers#readme">https://github.com/androidthings/contrib-drivers#readme</a>
+ *
+ * Link referencia
+ * @see <a href="https://github.com/survivingwithandroid/Surviving-with-android/blob/master/Things/app/src/main/java/com/survivingwithandroid/things/RGBThingActivity.java">https://github.com/survivingwithandroid/Surviving-with-android/blob/master/Things/app/src/main/java/com/survivingwithandroid/things/RGBThingActivity.java</a>
  */
 public class MainActivity extends Activity
 {
@@ -47,6 +51,7 @@ public class MainActivity extends Activity
 
         _manager = PeripheralManager.getInstance();
         initComponentsRPI();
+        initComponentsLayout();
     }
 
     private void initComponentsRPI()
@@ -66,8 +71,67 @@ public class MainActivity extends Activity
         } catch (IOException e){ }
     }
 
-    private void initComponentLayout()
+    private void initComponentsLayout()
     {
+        _switchRed = (Switch) findViewById(R.id.switchRed);
+        _switchRed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                try {
+                    _redPin.setValue(!isChecked);
+                }
+                catch (IOException e) {
+                    //Log.w(TAG, "Red GPIO Error", e);
+                }
+            }
+        });
 
+        _switchGreen = (Switch) findViewById(R.id.switchGreen);
+        _switchGreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                try {
+                    _greenPin.setValue(!isChecked);
+                }
+                catch (IOException e) {
+                    //Log.w(TAG, "Red GPIO Error", e);
+                }
+            }
+        });
+
+        _switchBlue = (Switch) findViewById(R.id.switchBlue);
+        _switchBlue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                try {
+                    _bluePin.setValue(!isChecked);
+                }
+                catch (IOException e) {
+                    //Log.w(TAG, "Red GPIO Error", e);
+                }
+            }
+        });
+    }
+
+    private void closePin(Gpio objPin)
+    {
+        if (objPin != null)
+        {
+            try {
+                objPin.close();
+                objPin = null;
+            } catch (IOException e) {
+                //Log.w(TAG, "Unable to close GPIO", e);
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        closePin(_redPin);
+        closePin(_greenPin);
+        closePin(_bluePin);
+        super.onDestroy();
     }
 }
