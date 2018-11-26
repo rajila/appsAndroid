@@ -41,3 +41,37 @@
  
  
  https://github.com/survivingwithandroid/Surviving-with-android/tree/master/Things
+ 
+ 
+ impoooo
+ https://github.com/androidthings/contrib-drivers#readme
+ 
+ implementation 'com.google.android.things.contrib:driver-pwmspeaker:1.0'
+ 
+ 
+ https://github.com/androidthings/sample-button
+ 
+ https://github.com/androidthings/sample-simplepio/tree/master/java/#readme
+ 
+ 
+ https://www.survivingwithandroid.com/2017/01/android-iot-app-using-android-things-tutorial.html
+ 
+ 
+ https://www.survivingwithandroid.com/2017/01/android-iot-app-using-android-things-tutorial.html
+ 
+ 
+ https://dzone.com/articles/build-an-iot-app-using-android-things-in-3-steps
+ 
+ 
+ https://github.com/androidthings/contrib-drivers#readme
+ 
+ 
+ Buzzer
+ https://aprendiendoarduino.wordpress.com/tag/tone/
+ 
+ 
+ https://gist.github.com/nicksort/4736535
+ 
+ 
+ 
+ https://www.youtube.com/watch?v=MISh3rSZcBg
