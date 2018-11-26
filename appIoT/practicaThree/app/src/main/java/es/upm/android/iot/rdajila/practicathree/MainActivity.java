@@ -71,16 +71,10 @@ public class MainActivity extends Activity
         @Override
         public void run()
         {
-
-            Log.i(TAG,"RADC INDEX: "+index);
-
-            if (mSpeaker == null) {
-                Log.i(TAG,"RADC NULL: "+index);
-                return;
-            }
+            if (mSpeaker == null) return;
 
             try {
-                if (index == Constantes.DRAMATIC_THEME.length) {
+                /*if (index == Constantes.DRAMATIC_THEME.length) {
                     Log.i(TAG,"RADC IGUAL: "+index);
                     // reached the end
                     mSpeaker.stop();
@@ -89,13 +83,32 @@ public class MainActivity extends Activity
                     Log.i(TAG,"RADC NOTA: "+note);
                     if (note > 0) {
                         mSpeaker.play(note);
+                        //Thread.sleep(0);
                     } else {
                         mSpeaker.stop();
                     }
-                    mHandler.postDelayed(this, PLAYBACK_NOTE_DELAY); // Se vuelve e ajecutar el Run, en un tiempo
+                    mHandler.postDelayed(this, 10000); // Se vuelve e ajecutar el Run, en un tiempo: PLAYBACK_NOTE_DELAY
+                }*/
+                for(int i=0; i<Constantes.TONO_STAR_WARS.size(); i++)
+                {
+                    Note _note = Constantes.TONO_STAR_WARS.get(i);
+                    int _frequency = _note.get_frequency();
+                    int _duration = _note.get_duration();
+                    if( _frequency > 0 )
+                    {
+                        mSpeaker.play(_frequency);
+                        Thread.sleep(_duration);
+                        mSpeaker.stop();
+                        Thread.sleep(50);
+                    }else{
+                        Thread.sleep(_duration);
+                    }
                 }
             } catch (IOException e) {
                 Log.e(TAG, "RADC03 Error playing speaker", e);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     };
