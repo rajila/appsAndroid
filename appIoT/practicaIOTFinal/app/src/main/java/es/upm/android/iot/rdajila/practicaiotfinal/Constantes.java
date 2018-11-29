@@ -32,11 +32,13 @@ public final class Constantes
     public static final String PINBUZZER = "PWM1"; // NUM PIN 33
     public static final String PINRED = "BCM5"; // NUM PIN 29
     public static final String PINGREEN = "BCM6"; // NUM PIN 31
-    //public static final String PINBLUE = "BCM13"; // NUM PIN 33
+    public static final String PINBLUE = "BCM17"; // NUM PIN 11
+    public static final String PINYELLOW = "BCM27"; // NUM PIN 13
+    public static final String PINWHITE = "BCM22"; // NUM PIN 15
 
     //public static final HashMap<Integer,Note> TONO_STAR_WARS = initToneStarWars();
 
-    private static HashMap<Integer,Note> initToneStarWars(Gpio ledYellow, Gpio ledBlue, Gpio ledRed, Gpio ledGreen, Gpio ledWhite )
+    public static HashMap<Integer,Note> initToneStarWars(Gpio ledYellow, Gpio ledBlue, Gpio ledRed, Gpio ledGreen, Gpio ledWhite )
     {
         HashMap<Integer,Note> _mapTmp = new HashMap<Integer,Note>();
 

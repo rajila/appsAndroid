@@ -13,6 +13,7 @@ import com.google.android.things.pio.Gpio;
 import com.google.android.things.contrib.driver.pwmspeaker.Speaker;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * @see <a href="https://github.com/androidthings/contrib-drivers#readme">https://github.com/androidthings/contrib-drivers#readme</a>
@@ -25,10 +26,13 @@ public class MainActivity extends Activity
     private Speaker mSpeaker;
     private Gpio _redPin;
     private Gpio _greenPin;
+    private Gpio _bluePin;
+    private Gpio _yellowPin;
+    private Gpio _whitePin;
 
     private PeripheralManager _manager;
-    private HandlerThread mHandlerThread;
-    private Handler mHandler;
+    private HandlerThread _handlerThread;
+    private Handler _handler;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -40,10 +44,10 @@ public class MainActivity extends Activity
         _manager = PeripheralManager.getInstance();
         initComponentsRPI();
 
-        mHandlerThread = new HandlerThread("pwm-playback");
-        mHandlerThread.start();
-        mHandler = new Handler(mHandlerThread.getLooper());
-        mHandler.post(mPlaybackRunnable);
+        _handlerThread = new HandlerThread("pwm-playback");
+        _handlerThread.start();
+        _handler = new Handler(_handlerThread.getLooper());
+        _handler.post(mPlaybackRunnable);
     }
 
     private void initComponentsRPI()
@@ -59,6 +63,18 @@ public class MainActivity extends Activity
             _greenPin.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
             _greenPin.setValue(false);
 
+            _bluePin = _manager.openGpio(Constantes.PINBLUE);
+            _bluePin.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
+            _bluePin.setValue(false);
+
+            _yellowPin = _manager.openGpio(Constantes.PINYELLOW);
+            _yellowPin.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
+            _yellowPin.setValue(false);
+
+            _whitePin = _manager.openGpio(Constantes.PINWHITE);
+            _whitePin.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
+            _whitePin.setValue(false);
+
             mSpeaker = new Speaker(Constantes.PINBUZZER);
             mSpeaker.stop(); // in case the PWM pin was enabled already
 
@@ -73,23 +89,21 @@ public class MainActivity extends Activity
         @Override
         public void run()
         {
+            final HashMap<Integer, Note> TONO_STAR_WARS = Constantes.initToneStarWars(_yellowPin,_bluePin,_redPin, _greenPin, _whitePin);
             if (mSpeaker == null) return;
-
             try
             {
-                for(int i=0; i<Constantes.TONO_STAR_WARS.size(); i++)
+                for(int i=0; i<TONO_STAR_WARS.size(); i++)
                 {
-                    Note _note = Constantes.TONO_STAR_WARS.get(i);
+                    Note _note = TONO_STAR_WARS.get(i);
                     int _frequency = _note.get_frequency();
                     int _duration = _note.get_duration();
                     if( _frequency > 0 )
                     {
                         mSpeaker.play(_frequency);
-                        if( (i+1)%2 == 0 ) setLedValue(_redPin,true);
-                        else setLedValue(_greenPin,true);
+                        setLedValue(_note.get_ledPin(),true);
                         Thread.sleep(_duration);
-                        if( (i+1)%2 == 0 ) setLedValue(_redPin,false);
-                        else setLedValue(_greenPin,false);
+                        setLedValue(_note.get_ledPin(),false);
                         mSpeaker.stop();
                         Thread.sleep(50);
                     }else{
@@ -135,10 +149,13 @@ public class MainActivity extends Activity
 
         closePinLed(_redPin);
         closePinLed(_greenPin);
+        closePinLed(_bluePin);
+        closePinLed(_yellowPin);
+        closePinLed(_whitePin);
 
-        if (mHandler != null) {
-            mHandler.removeCallbacks(mPlaybackRunnable);
-            mHandlerThread.quitSafely();
+        if (_handler != null) {
+            _handler.removeCallbacks(mPlaybackRunnable);
+            _handlerThread.quitSafely();
         }
         if (mSpeaker != null) {
             try {
