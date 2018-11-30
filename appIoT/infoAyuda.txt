@@ -75,3 +75,8 @@
  
  
  https://www.youtube.com/watch?v=MISh3rSZcBg
+ 
+ 
+ 
+ 
+ adb shell am start -n "es.upm.android.iot.rdajila.practicaiotfinal/es.upm.android.iot.rdajila.practicaiotfinal.MainActivity" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER
