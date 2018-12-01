@@ -7,8 +7,8 @@
 
 # Java class files
 *.class
-misc.xml
-agendaApp/.idea/misc.xml
+#misc.xml
+#agendaApp/.idea/misc.xml
 
 # Generated files
 bin/
