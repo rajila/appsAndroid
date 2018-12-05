@@ -1,10 +1,5 @@
 package es.upm.android.rdajila.agendaapp;
 
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -13,8 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import es.upm.android.rdajila.agendaapp.contract.ContactContract;
-import es.upm.android.rdajila.agendaapp.crudcontact.AddEditContact;
+import es.upm.android.rdajila.agendaapp.crudcontact.AddEditContactFragment;
 import es.upm.android.rdajila.agendaapp.data.ScheduleDbHelper;
 import es.upm.android.rdajila.agendaapp.util.Constant;
 
@@ -60,8 +54,15 @@ public class ListContactFragment extends Fragment
 
     private void actionAddContact()
     {
-        Intent _intentView = new Intent(getActivity(),AddEditContact.class);
-        startActivityForResult(_intentView, Constant._REQUEST_ADD_CONTACT);
+        //Intent _intentView = new Intent(getActivity(),AddEditContact.class);
+        //startActivityForResult(_intentView, Constant._REQUEST_ADD_CONTACT);
+        AddEditContactFragment _fragment = new AddEditContactFragment();
+        Bundle args = new Bundle();
+        args.putString(Constant._KEY_ID_CONTACT, null);
+        _fragment.setArguments(args);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id._contenidoLayout, _fragment)
+                .commit();
     }
 
     /*private void loadContacts()
