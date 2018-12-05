@@ -1,7 +1,9 @@
 package es.upm.android.rdajila.agendaapp.crudcontact;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
@@ -13,8 +15,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import es.upm.android.rdajila.agendaapp.ListContactFragment;
 import es.upm.android.rdajila.agendaapp.R;
 import es.upm.android.rdajila.agendaapp.data.ScheduleDbHelper;
+import es.upm.android.rdajila.agendaapp.entity.Contact;
 import es.upm.android.rdajila.agendaapp.util.Constant;
 
 
@@ -99,10 +103,60 @@ public class AddEditContactFragment extends Fragment
     public void saveContact()
     {
         Log.i(TAG, "Save Contact!!");
+
+        String _name = _fieldName.getText().toString();
+        String _direction = _fieldDirection.getText().toString();
+        String _mobile = _fieldMobile.getText().toString();
+        String _phone = _fieldPhone.getText().toString();
+        String _email = _fieldEmail.getText().toString();
+
+        Contact _contact = new Contact(_name,_direction,_mobile,_phone,_email);
+        new AddEditContactTask().execute(_contact);
+        //showListContactScreen(true);
     }
 
     public void cancelAddContact()
     {
 
+    }
+
+    private void showListContactScreen(Boolean requery)
+    {
+        /*if (!requery) {
+            //showAddEditError();
+            getActivity().setResult(Activity.RESULT_CANCELED);
+        } else {
+            getActivity().setResult(Activity.RESULT_OK);
+        }
+
+        getActivity().finish();*/
+        //getActivity().setResult(Activity.RESULT_OK);
+        Log.i(TAG,"Mensaje 004");
+        ListContactFragment _fragment = new ListContactFragment();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id._contenidoLayout, _fragment)
+                .commit();
+    }
+
+    private class AddEditContactTask extends AsyncTask<Contact, Void, Boolean>
+    {
+        @Override
+        protected Boolean doInBackground(Contact... contacts) {
+            if (_idContact != null){
+                //return mLawyersDbHelper.updateLawyer(lawyers[0], mLawyerId) > 0;
+                Log.i(TAG,"Mensaje 001");
+                return true;
+            } else {
+                //return mLawyersDbHelper.saveLawyer(lawyers[0]) > 0;
+                Log.i(TAG,"Mensaje 002");
+                return true;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            Log.i(TAG,"Mensaje 003");
+            showListContactScreen(result);
+        }
     }
 }

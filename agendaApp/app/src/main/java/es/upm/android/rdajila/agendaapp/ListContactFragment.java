@@ -1,8 +1,11 @@
 package es.upm.android.rdajila.agendaapp;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +49,7 @@ public class ListContactFragment extends Fragment
             @Override
             public void onClick(View v) { actionAddContact(); }
         });
+        _btnAdd.show();
 
         //loadContacts();
 
@@ -63,6 +67,23 @@ public class ListContactFragment extends Fragment
         getActivity().getSupportFragmentManager().beginTransaction()
                 .add(R.id._contenidoLayout, _fragment)
                 .commit();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i("LIST","REQUEST LIST00000");
+        if (Activity.RESULT_OK == resultCode) {
+            Log.i("LIST","REQUEST LIST");
+            /*switch (requestCode) {
+                case AddEditLawyerActivity.REQUEST_ADD_LAWYER:
+                    showSuccessfullSavedMessage();
+                    loadLawyers();
+                    break;
+                case REQUEST_UPDATE_DELETE_LAWYER:
+                    loadLawyers();
+                    break;
+            }*/
+        }
     }
 
     /*private void loadContacts()

@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity
         _layoutContenido = (RelativeLayout) findViewById(R.id._contenidoLayout);
         _toolbarApp = (Toolbar) findViewById(R.id._toolbarApp);
         _btnAdd = (FloatingActionButton)findViewById(R.id._btnAdd);
+        _btnAdd.hide();
 
         _toolbarApp.setTitle(R.string.app_name);
         _toolbarApp.inflateMenu(R.menu.menu_main);
