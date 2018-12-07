@@ -1,5 +1,6 @@
 package es.upm.android.rdajila.agendaapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,10 +9,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import es.upm.android.rdajila.agendaapp.contract.ContactContract;
 import es.upm.android.rdajila.agendaapp.crudcontact.AddEditContact;
@@ -29,6 +32,8 @@ import es.upm.android.rdajila.agendaapp.util.Constant;
  */
 public class ListContactFragment extends Fragment
 {
+    private static final String TAG = ListContactFragment.class.getSimpleName();
+
     private ScheduleDbHelper _db;
     private ListView _listContact;
     private ContactCursorAdapter _contactAdaptador;
@@ -43,8 +48,8 @@ public class ListContactFragment extends Fragment
         // Inflate the layout for this fragment
         View _viewLayout = inflater.inflate(R.layout.fragment_list_contact, container, false);
         _listContact = (ListView) _viewLayout.findViewById(R.id._listData);
-        //_contactAdaptador = new ContactCursorAdapter(getActivity(),null);
-        _contactAdaptador = new ContactCursorAdapter(getActivity(), _db.getAllContacts());
+        _contactAdaptador = new ContactCursorAdapter(getActivity(),null);
+        //_contactAdaptador = new ContactCursorAdapter(getActivity(), _db.getAllContacts());
         _listContact.setAdapter(_contactAdaptador);
 
         _btnAdd = (FloatingActionButton)_viewLayout.findViewById(R.id._btnAdd);
@@ -53,18 +58,41 @@ public class ListContactFragment extends Fragment
             public void onClick(View v) { actionAddContact(); }
         });
 
-        //loadContacts();
+        loadContacts();
 
         return _viewLayout;
     }
 
     private void actionAddContact()
     {
-        Intent _intentView = new Intent(getActivity(),AddEditContact.class);
-        startActivityForResult(_intentView, Constant._REQUEST_ADD_CONTACT);
+        Intent _intentView = new Intent( getActivity(), AddEditContact.class );
+        startActivityForResult( _intentView, Constant._REQUEST_ADD_CONTACT ); // Constant._REQUEST_ADD_CONTACT valor del resultCode
     }
 
-    /*private void loadContacts()
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (Activity.RESULT_OK == resultCode)
+        {
+            switch (requestCode)
+            {
+                case Constant._REQUEST_ADD_CONTACT:
+                    showSavedMessage();
+                    break;
+                //case REQUEST_UPDATE_DELETE_LAWYER:
+                //    loadLawyers();
+                //    break;
+            }
+            loadContacts();
+        }
+    }
+
+    private void showSavedMessage()
+    {
+        Toast.makeText(getActivity(), "Contacto guardado correctamente", Toast.LENGTH_SHORT).show();
+    }
+
+    private void loadContacts()
     {
         new ContactLoadTask().execute();
     }
@@ -84,5 +112,5 @@ public class ListContactFragment extends Fragment
                 // Mostrar empty state
             }
         }
-    }*/
+    }
 }
