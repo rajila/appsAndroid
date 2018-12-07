@@ -64,7 +64,7 @@
 
     <include layout="@layout/content_layout" />
 
-    <android.support.design.widget.FloatingActionButton
+    <!--<android.support.design.widget.FloatingActionButton
         android:id="@+id/_btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,6 +80,6 @@
         android:visibility="gone"
         app:backgroundTint="@color/colorPrimaryDark"
         app:fabSize="normal"
-        app:srcCompat="@drawable/ic_account_plus" />
+        app:srcCompat="@drawable/ic_account_plus" />-->
 
 </RelativeLayout>
