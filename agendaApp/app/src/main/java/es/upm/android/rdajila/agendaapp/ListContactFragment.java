@@ -43,7 +43,6 @@ public class ListContactFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        //getActivity().deleteDatabase(ContactContract._TABLE_NAME);
         _db = new ScheduleDbHelper(getActivity());
         // Inflate the layout for this fragment
         View _viewLayout = inflater.inflate(R.layout.fragment_list_contact, container, false);
@@ -89,7 +88,7 @@ public class ListContactFragment extends Fragment
 
     private void showSavedMessage()
     {
-        Toast.makeText(getActivity(), "Contacto guardado correctamente", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.msn_save_contact, Toast.LENGTH_SHORT).show();
     }
 
     private void loadContacts()

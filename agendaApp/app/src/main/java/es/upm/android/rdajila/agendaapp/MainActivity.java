@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity
     private RelativeLayout _layoutInicio;
     private RelativeLayout _layoutPrincipal;
     private Toolbar _toolbarApp;
-    //private FloatingActionButton _btnAdd;
 
     Handler _handler = new Handler();
 
@@ -51,7 +50,6 @@ public class MainActivity extends AppCompatActivity
         _layoutInicio = (RelativeLayout) findViewById(R.id._contenidoInicio);
         _layoutContenido = (RelativeLayout) findViewById(R.id._contenidoLayout);
         _toolbarApp = (Toolbar) findViewById(R.id._toolbarApp);
-        //_btnAdd = (FloatingActionButton)findViewById(R.id._btnAdd);
 
         _toolbarApp.setTitle(R.string.app_name);
         _toolbarApp.inflateMenu(R.menu.menu_main);
