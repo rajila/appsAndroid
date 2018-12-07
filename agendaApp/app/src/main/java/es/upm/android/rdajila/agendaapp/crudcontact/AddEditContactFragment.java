@@ -38,7 +38,7 @@ public class AddEditContactFragment extends Fragment
 
     private String _idContact;
 
-    private FloatingActionButton _btnAdd;
+    //private FloatingActionButton _btnAdd;
     private Button _btnAceptar;
 
     private TextInputLayout _tilName;
@@ -69,8 +69,8 @@ public class AddEditContactFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        _btnAdd = (FloatingActionButton)getActivity().findViewById(R.id._btnAdd);
-        if( _btnAdd != null ) _btnAdd.hide();
+        //_btnAdd = (FloatingActionButton)getActivity().findViewById(R.id._btnAdd);
+        //if( _btnAdd != null ) _btnAdd.hide();
 
         _db = new ScheduleDbHelper(getActivity());
         // Inflate the layout for this fragment

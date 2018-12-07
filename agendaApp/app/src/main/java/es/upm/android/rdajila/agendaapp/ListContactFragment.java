@@ -44,7 +44,7 @@ public class ListContactFragment extends Fragment
         _contactAdaptador = new ContactCursorAdapter(getActivity(), _db.getAllContacts());
         _listContact.setAdapter(_contactAdaptador);
 
-        _btnAdd = (FloatingActionButton)getActivity().findViewById(R.id._btnAdd);
+        _btnAdd = (FloatingActionButton)_viewLayout.findViewById(R.id._btnAdd);
         _btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { actionAddContact(); }
@@ -65,7 +65,7 @@ public class ListContactFragment extends Fragment
         args.putString(Constant._KEY_ID_CONTACT, null);
         _fragment.setArguments(args);
         getActivity().getSupportFragmentManager().beginTransaction()
-                .add(R.id._contenidoLayout, _fragment)
+                .replace(R.id._contenidoLayout, _fragment)
                 .commit();
     }
 
