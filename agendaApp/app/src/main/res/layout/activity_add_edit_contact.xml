@@ -16,6 +16,6 @@
         android:theme="@style/ToolBarStyle"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <include layout="@layout/content_add_edit_layout" />
+    <include layout="@layout/content_layout" />
 
 </RelativeLayout>

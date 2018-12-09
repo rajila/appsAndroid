@@ -11,6 +11,17 @@
     <string name="hint_mobile">Mobile</string>
     <string name="accion_cancelar">Cancel</string>
     <string name="accion_aceptar">Agree</string>
-    <string name="title_add_edit">Add Contact</string>
+    <string name="title_add_contact">Add Contact</string>
     <string name="msn_save_contact">Contact saved correctly</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="title_edit_contact">Edit Contact</string>
+    <string name="title_detail_contact">Contact Detail</string>
+    <string name="action_edit">Edit</string>
+    <string name="value_default">xxxxxxxxxx xxxxxxxxxx</string>
+    <string name="msn_error_load_data">Error loading data</string>
+    <string name="msn_error_save_data">Error when saving contact</string>
+    <string name="msn_update_contact">Contact updated correctly</string>
+    <string name="msn_error_delete_data">Error removing Contact</string>
+    <string name="msn_delete_contact">Contact removed correctly</string>
 </resources>

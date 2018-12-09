@@ -82,4 +82,35 @@ public class ScheduleDbHelper extends SQLiteOpenHelper
                         null,
                         null);
     }
+
+    public Cursor getContactById(String idContact)
+    {
+        Cursor _cursorDB = getReadableDatabase().query(
+                ContactContract._TABLE_NAME,
+                ContactContract._GET_ALL_DATA,
+                ContactContract._ID + " LIKE ?",
+                new String[]{ idContact },
+                null,
+                null,
+                null);
+        return _cursorDB;
+    }
+
+    public int updateContact(Contact data, String idContact)
+    {
+        return getWritableDatabase().update(
+                ContactContract._TABLE_NAME,
+                data.createContentValue(),
+                ContactContract._ID + " LIKE ?",
+                new String[]{idContact}
+        );
+    }
+
+    public int deleteContact(String idContact)
+    {
+        return getWritableDatabase().delete(
+                ContactContract._TABLE_NAME,
+                ContactContract._ID + " LIKE ?",
+                new String[]{idContact});
+    }
 }

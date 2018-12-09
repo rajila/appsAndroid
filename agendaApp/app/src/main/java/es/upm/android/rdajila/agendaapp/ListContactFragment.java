@@ -13,12 +13,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import es.upm.android.rdajila.agendaapp.contract.ContactContract;
 import es.upm.android.rdajila.agendaapp.crudcontact.AddEditContact;
+import es.upm.android.rdajila.agendaapp.crudcontact.DetailContactActivity;
 import es.upm.android.rdajila.agendaapp.data.ScheduleDbHelper;
+import es.upm.android.rdajila.agendaapp.entity.Contact;
 import es.upm.android.rdajila.agendaapp.util.Constant;
 
 
@@ -51,6 +54,15 @@ public class ListContactFragment extends Fragment
         //_contactAdaptador = new ContactCursorAdapter(getActivity(), _db.getAllContacts());
         _listContact.setAdapter(_contactAdaptador);
 
+        _listContact.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Cursor _currentData = (Cursor) _contactAdaptador.getItem(i);
+                //String currentLawyerId = currentItem.getString(currentItem.getColumnIndex(ContactContract._ID));
+                showDetailScreen(_currentData.getString(_currentData.getColumnIndex(ContactContract._ID)));
+            }
+        });
+
         _btnAdd = (FloatingActionButton)_viewLayout.findViewById(R.id._btnAdd);
         _btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +80,13 @@ public class ListContactFragment extends Fragment
         startActivityForResult( _intentView, Constant._REQUEST_ADD_CONTACT ); // Constant._REQUEST_ADD_CONTACT valor del resultCode
     }
 
+    private void showDetailScreen(String idContact)
+    {
+        Intent intent = new Intent(getActivity(), DetailContactActivity.class);
+        intent.putExtra(Constant._KEY_ID_CONTACT, idContact);
+        startActivityForResult(intent, Constant._REQUEST_SHOW_CONTACT);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -78,9 +97,12 @@ public class ListContactFragment extends Fragment
                 case Constant._REQUEST_ADD_CONTACT:
                     showSavedMessage();
                     break;
-                //case REQUEST_UPDATE_DELETE_LAWYER:
-                //    loadLawyers();
-                //    break;
+                case Constant._REQUEST_EDIT_CONTACT:
+                    showUpdatedMessage();
+                    break;
+                case Constant._REQUEST_SHOW_CONTACT:
+                    showDeleteMessage();
+                    break;
             }
             loadContacts();
         }
@@ -89,6 +111,16 @@ public class ListContactFragment extends Fragment
     private void showSavedMessage()
     {
         Toast.makeText(getActivity(), R.string.msn_save_contact, Toast.LENGTH_SHORT).show();
+    }
+
+    private void showUpdatedMessage()
+    {
+        Toast.makeText(getActivity(), R.string.msn_update_contact, Toast.LENGTH_SHORT).show();
+    }
+
+    private void showDeleteMessage()
+    {
+        Toast.makeText(getActivity(), R.string.msn_delete_contact, Toast.LENGTH_SHORT).show();
     }
 
     private void loadContacts()

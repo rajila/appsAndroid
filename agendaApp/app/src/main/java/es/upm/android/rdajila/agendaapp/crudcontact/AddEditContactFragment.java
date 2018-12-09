@@ -2,6 +2,7 @@ package es.upm.android.rdajila.agendaapp.crudcontact;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import es.upm.android.rdajila.agendaapp.ListContactFragment;
 import es.upm.android.rdajila.agendaapp.R;
@@ -36,7 +38,7 @@ public class AddEditContactFragment extends Fragment
 
     private static final String TAG = AddEditContactFragment.class.getSimpleName();
 
-    private String _idContact;
+    private String _idContact = null;
 
     private Button _btnAceptar;
 
@@ -59,7 +61,8 @@ public class AddEditContactFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        if (getArguments() != null)
+        {
             _idContact = getArguments().getString(Constant._KEY_ID_CONTACT);
         }
     }
@@ -71,7 +74,7 @@ public class AddEditContactFragment extends Fragment
         // Inflate the layout for this fragment
         View _viewLayout = inflater.inflate(R.layout.fragment_add_edit_contact, container, false);
 
-        _btnAceptar = (Button) _viewLayout.findViewById(R.id.boton_aceptar);
+        _btnAceptar = (Button) _viewLayout.findViewById(R.id._btnSave);
         _btnAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { saveContact(); }
@@ -92,7 +95,15 @@ public class AddEditContactFragment extends Fragment
         _tilEmail = (TextInputLayout)_viewLayout.findViewById(R.id._til_email);
         _fieldEmail = (EditText)_viewLayout.findViewById(R.id._field_email);
 
+        // Carga de datos
+        if (_idContact != null) loadContactDB();
+
         return _viewLayout;
+    }
+
+    private void loadContactDB()
+    {
+        new GetContactByIdTask().execute();
     }
 
     private void saveContact()
@@ -113,11 +124,30 @@ public class AddEditContactFragment extends Fragment
     {
         if ( !requery )
         {
-            //showAddEditError();
+            showAddEditError();
             getActivity().setResult(Activity.RESULT_CANCELED);
         } else getActivity().setResult(Activity.RESULT_OK);
 
         getActivity().finish();
+    }
+
+    private void loadDetailContact(Contact data)
+    {
+        _fieldName.setText(data.get_name());
+        _fieldDirection.setText(data.get_direction());
+        _fieldMobile.setText(data.get_mobile());
+        _fieldPhone.setText(data.get_phone());
+        _fieldEmail.setText(data.get_email());
+    }
+
+    private void showLoadContactDBError()
+    {
+        Toast.makeText(getActivity(), R.string.msn_error_load_data, Toast.LENGTH_SHORT).show();
+    }
+
+    private void showAddEditError()
+    {
+        Toast.makeText(getActivity(), R.string.msn_error_save_data, Toast.LENGTH_SHORT).show();
     }
 
     private class AddEditContactTask extends AsyncTask<Contact, Void, Boolean>
@@ -127,8 +157,7 @@ public class AddEditContactFragment extends Fragment
             if (_idContact != null)
             {
                 Log.i(TAG,"Update Contact");
-                //return mLawyersDbHelper.updateLawyer(lawyers[0], mLawyerId) > 0;
-                return true;
+                return _db.updateContact(contacts[0], _idContact) > 0;
             } else {
                 Log.i(TAG,"Create new Contact");
                 return _db.insertContact(contacts[0]) > 0;
@@ -140,6 +169,26 @@ public class AddEditContactFragment extends Fragment
         {
             Log.i(TAG,"Show List Contact Screen");
             showListContactScreen(result);
+        }
+    }
+
+    private class GetContactByIdTask extends AsyncTask<Void, Void, Cursor>
+    {
+        @Override
+        protected Cursor doInBackground(Void... voids) {
+            return _db.getContactById(_idContact);
+        }
+
+        @Override
+        protected void onPostExecute(Cursor cursor)
+        {
+            if (cursor != null && cursor.moveToLast()) {
+                loadDetailContact(new Contact(cursor));
+            } else {
+                showLoadContactDBError();
+                getActivity().setResult(Activity.RESULT_CANCELED);
+                getActivity().finish();
+            }
         }
     }
 }

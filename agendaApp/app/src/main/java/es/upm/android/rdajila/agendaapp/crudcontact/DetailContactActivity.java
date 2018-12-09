@@ -1,19 +1,14 @@
 package es.upm.android.rdajila.agendaapp.crudcontact;
 
-import android.app.Activity;
-import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 
-import es.upm.android.rdajila.agendaapp.ListContactFragment;
 import es.upm.android.rdajila.agendaapp.R;
 import es.upm.android.rdajila.agendaapp.util.Constant;
 
-public class AddEditContact extends AppCompatActivity
+public class DetailContactActivity extends AppCompatActivity
 {
     private static final String TAG = AddEditContact.class.getSimpleName();
 
@@ -23,23 +18,28 @@ public class AddEditContact extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_edit_contact);
+        setContentView(R.layout.activity_detail_contact);
 
         _toolbarApp = (Toolbar) findViewById(R.id._toolbarApp);
+        _toolbarApp.setTitle(R.string.title_detail_contact);
         setSupportActionBar(_toolbarApp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         _idContact = getIntent().getStringExtra(Constant._KEY_ID_CONTACT);
 
-        setTitle( (_idContact == null)?R.string.title_add_contact:R.string.title_edit_contact );
-
-        AddEditContactFragment _fragment = new AddEditContactFragment();
+        DetailContactFragment _fragment = new DetailContactFragment();
         Bundle args = new Bundle();
         args.putString(Constant._KEY_ID_CONTACT, _idContact);
         _fragment.setArguments(args);
         getSupportFragmentManager().beginTransaction()
                 .add(R.id._contenidoLayout, _fragment)
                 .commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

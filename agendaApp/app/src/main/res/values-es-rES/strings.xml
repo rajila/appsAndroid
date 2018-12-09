@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Agenda UPM</string>
-    <string name="title_add_edit">Añadir Contacto</string>
+    <string name="title_add_contact">Añadir Contacto</string>
     <string name="accion_cancelar">Cancelar</string>
     <string name="hint_email">Correo</string>
     <string name="hint_name">Nombre</string>
@@ -13,4 +13,15 @@
     <string name="accion_aceptar">Aceptar</string>
     <string name="hello_blank_fragment">Hola fragmento en blanco</string>
     <string name="msn_save_contact">Contacto guardado correctamente</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="title_edit_contact">Editar Contacto</string>
+    <string name="title_detail_contact">Detalle Contacto</string>
+    <string name="action_edit">Editar</string>
+    <string name="value_default">xxxxxxxxxx xxxxxxxxxx</string>
+    <string name="msn_error_load_data">Error al cargar los datos</string>
+    <string name="msn_error_save_data">Error al guardar contacto</string>
+    <string name="msn_update_contact">Contacto actualizado correctamente</string>
+    <string name="msn_error_delete_data">Error al eliminar el contacto</string>
+    <string name="msn_delete_contact">Contacto eliminado correctamente</string>
 </resources>
