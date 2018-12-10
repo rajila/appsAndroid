@@ -3,6 +3,7 @@ package es.upm.android.rdajila.agendaapp.crudcontact;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Random;
 
 import es.upm.android.rdajila.agendaapp.R;
 import es.upm.android.rdajila.agendaapp.data.ContactBookDbHelper;
@@ -95,12 +98,15 @@ public class DetailContactFragment extends Fragment
 
     private void showDetailContact(Contact data)
     {
+        Random random = new Random();
         _mCollapsingView.setTitle(data.get_name());
         _valueAdress.setText(data.get_adress());
         _valueMobile.setText(data.get_mobile());
         _valuePhone.setText(data.get_phone());
         _valueEmail.setText(data.get_email());
         _mCollapsingView.setBackgroundResource(R.color.colorG);
+        int color = Color.argb(255, random.nextInt(250), random.nextInt(250), random.nextInt(250));
+        _mCollapsingView.setBackgroundColor(color);
         _movilDB = data.get_mobile();
     }
 

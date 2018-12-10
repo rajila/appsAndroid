@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UPM Schedule</string>
+    <string name="app_name">UPM ContactBook</string>
     <string name="description_logo">App Logo</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
