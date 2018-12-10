@@ -9,15 +9,15 @@ public class Contact
 {
     private Long _id;
     private String _name;
-    private String _direction;
+    private String _adress;
     private String _mobile;
     private String _phone;
     private String _email;
 
-    public Contact(String name, String direction, String mobile, String phone, String email)
+    public Contact(String name, String adress, String mobile, String phone, String email)
     {
         _name = name;
-        _direction = direction;
+        _adress = adress;
         _mobile = mobile;
         _phone = phone;
         _email = email;
@@ -27,7 +27,7 @@ public class Contact
     {
         _id = Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactContract._ID)));
         _name = cursor.getString(cursor.getColumnIndex(ContactContract._NAME));
-        _direction = cursor.getString(cursor.getColumnIndex(ContactContract._DIRECTION));
+        _adress = cursor.getString(cursor.getColumnIndex(ContactContract._ADRESS));
         _mobile = cursor.getString(cursor.getColumnIndex(ContactContract._MOBILE));
         _phone = cursor.getString(cursor.getColumnIndex(ContactContract._PHONE));
         _email = cursor.getString(cursor.getColumnIndex(ContactContract._EMAIL));
@@ -37,7 +37,7 @@ public class Contact
     {
         ContentValues _contentVal = new ContentValues();
         _contentVal.put(ContactContract._NAME, _name);
-        _contentVal.put(ContactContract._DIRECTION, _direction);
+        _contentVal.put(ContactContract._ADRESS, _adress);
         _contentVal.put(ContactContract._MOBILE, _mobile);
         _contentVal.put(ContactContract._PHONE, _phone);
         _contentVal.put(ContactContract._EMAIL, _email);
@@ -60,12 +60,12 @@ public class Contact
         this._name = _name;
     }
 
-    public String get_direction() {
-        return _direction;
+    public String get_adress() {
+        return _adress;
     }
 
-    public void set_direction(String _direction) {
-        this._direction = _direction;
+    public void set_adress(String _adress) {
+        this._adress = _adress;
     }
 
     public String get_mobile() {

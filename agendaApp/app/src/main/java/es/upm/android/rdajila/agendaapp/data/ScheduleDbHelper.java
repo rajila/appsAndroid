@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import es.upm.android.rdajila.agendaapp.contract.ContactContract;
 import es.upm.android.rdajila.agendaapp.entity.Contact;
@@ -26,7 +25,7 @@ public class ScheduleDbHelper extends SQLiteOpenHelper
                 "CREATE TABLE " + ContactContract._TABLE_NAME + " ("
                 + ContactContract._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                 + ContactContract._NAME + " VARCHAR(100) NOT NULL,"
-                + ContactContract._DIRECTION + " VARCHAR(100) NOT NULL,"
+                + ContactContract._ADRESS + " VARCHAR(100) NOT NULL,"
                 + ContactContract._MOBILE + " VARCHAR(100) NOT NULL,"
                 + ContactContract._PHONE + " VARCHAR(100),"
                 + ContactContract._EMAIL + " VARCHAR(100) NOT NULL)"

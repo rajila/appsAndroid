@@ -1,10 +1,8 @@
 package es.upm.android.rdajila.agendaapp.crudcontact;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +43,7 @@ public class DetailContactFragment extends Fragment
     private Toolbar _toolbarApp;
 
     private CollapsingToolbarLayout _mCollapsingView;
-    private TextView _valueDirection;
+    private TextView _valueAdress;
     private TextView _valueMobile;
     private TextView _valuePhone;
     private TextView _valueEmail;
@@ -74,7 +71,7 @@ public class DetailContactFragment extends Fragment
         _mCollapsingView = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
         _toolbarApp = (Toolbar) getActivity().findViewById(R.id._toolbarApp);
 
-        _valueDirection = (TextView) _viewLayout.findViewById(R.id._valueDirection);
+        _valueAdress = (TextView) _viewLayout.findViewById(R.id._valueAdress);
         _valueMobile = (TextView) _viewLayout.findViewById(R.id._valueMobile);
         _valuePhone = (TextView) _viewLayout.findViewById(R.id._valuePhone);
         _valueEmail = (TextView) _viewLayout.findViewById(R.id._valueEmail);
@@ -98,7 +95,7 @@ public class DetailContactFragment extends Fragment
     private void showDetailContact(Contact data)
     {
         _mCollapsingView.setTitle(data.get_name());
-        _valueDirection.setText(data.get_direction());
+        _valueAdress.setText(data.get_adress());
         _valueMobile.setText(data.get_mobile());
         _valuePhone.setText(data.get_phone());
         _valueEmail.setText(data.get_email());

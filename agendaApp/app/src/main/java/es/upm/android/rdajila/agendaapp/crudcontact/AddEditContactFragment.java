@@ -1,12 +1,9 @@
 package es.upm.android.rdajila.agendaapp.crudcontact;
 
 import android.app.Activity;
-import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import es.upm.android.rdajila.agendaapp.ListContactFragment;
 import es.upm.android.rdajila.agendaapp.R;
 import es.upm.android.rdajila.agendaapp.data.ScheduleDbHelper;
 import es.upm.android.rdajila.agendaapp.entity.Contact;
@@ -45,8 +41,8 @@ public class AddEditContactFragment extends Fragment
     private TextInputLayout _tilName;
     private EditText _fieldName;
 
-    private TextInputLayout _tilDirection;
-    private EditText _fieldDirection;
+    private TextInputLayout _tilAdress;
+    private EditText _fieldAdress;
 
     private TextInputLayout _tilMobile;
     private EditText _fieldMobile;
@@ -83,8 +79,8 @@ public class AddEditContactFragment extends Fragment
         _tilName = (TextInputLayout)_viewLayout.findViewById(R.id._til_name);
         _fieldName = (EditText)_viewLayout.findViewById(R.id._field_name);
 
-        _tilDirection = (TextInputLayout)_viewLayout.findViewById(R.id._til_direction);
-        _fieldDirection = (EditText)_viewLayout.findViewById(R.id._field_direction);
+        _tilAdress = (TextInputLayout)_viewLayout.findViewById(R.id._til_adress);
+        _fieldAdress = (EditText)_viewLayout.findViewById(R.id._field_adress);
 
         _tilMobile = (TextInputLayout)_viewLayout.findViewById(R.id._til_mobile);
         _fieldMobile = (EditText)_viewLayout.findViewById(R.id._field_mobile);
@@ -111,12 +107,12 @@ public class AddEditContactFragment extends Fragment
         Log.i(TAG, "Save Contact!!");
 
         String _name = _fieldName.getText().toString();
-        String _direction = _fieldDirection.getText().toString();
+        String _adress = _fieldAdress.getText().toString();
         String _mobile = _fieldMobile.getText().toString();
         String _phone = _fieldPhone.getText().toString();
         String _email = _fieldEmail.getText().toString();
 
-        Contact _contact = new Contact(_name,_direction,_mobile,_phone,_email);
+        Contact _contact = new Contact(_name,_adress,_mobile,_phone,_email);
         new AddEditContactTask().execute(_contact);
     }
 
@@ -134,7 +130,7 @@ public class AddEditContactFragment extends Fragment
     private void loadDetailContact(Contact data)
     {
         _fieldName.setText(data.get_name());
-        _fieldDirection.setText(data.get_direction());
+        _fieldAdress.setText(data.get_adress());
         _fieldMobile.setText(data.get_mobile());
         _fieldPhone.setText(data.get_phone());
         _fieldEmail.setText(data.get_email());

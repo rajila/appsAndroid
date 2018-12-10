@@ -6,7 +6,7 @@
     <string name="hint_email">Correo</string>
     <string name="hint_name">Nombre</string>
     <string name="action_settings">Configuración</string>
-    <string name="hint_direction">Dirección</string>
+    <string name="hint_adress">Dirección</string>
     <string name="hint_phone">Teléfono</string>
     <string name="hint_mobile">Móvil</string>
     <string name="description_logo">Logo App</string>
