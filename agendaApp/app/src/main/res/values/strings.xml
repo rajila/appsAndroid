@@ -24,4 +24,12 @@
     <string name="msn_update_contact">Contact updated correctly</string>
     <string name="msn_error_delete_data">Error removing Contact</string>
     <string name="msn_delete_contact">Contact removed correctly</string>
+    <string name="action_import">Import contacts</string>
+    <string name="action_export">Export contacts</string>
+    <string name="msn_permission_ko">Please enable the permissions</string>
+    <string name="msn_access_sd_error">Error accessing the SD</string>
+    <string name="msn_import_error">Error importing contacts</string>
+    <string name="msn_export_error">Error exporting contacts</string>
+    <string name="msn_import_ok">Successful contact import</string>
+    <string name="msn_export_ok">Successful contact export</string>
 </resources>

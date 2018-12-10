@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import es.upm.android.rdajila.agendaapp.R;
-import es.upm.android.rdajila.agendaapp.data.ScheduleDbHelper;
+import es.upm.android.rdajila.agendaapp.data.ContactBookDbHelper;
 import es.upm.android.rdajila.agendaapp.entity.Contact;
 import es.upm.android.rdajila.agendaapp.util.Constant;
 
@@ -33,7 +33,7 @@ import es.upm.android.rdajila.agendaapp.util.Constant;
  */
 public class DetailContactFragment extends Fragment
 {
-    private ScheduleDbHelper _db;
+    private ContactBookDbHelper _db;
 
     private static final String TAG = DetailContactFragment.class.getSimpleName();
 
@@ -51,7 +51,8 @@ public class DetailContactFragment extends Fragment
     private FloatingActionButton _btnCall;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
         {
@@ -64,7 +65,7 @@ public class DetailContactFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        _db = new ScheduleDbHelper(getActivity());
+        _db = new ContactBookDbHelper(getActivity());
         // Inflate the layout for this fragment
         View _viewLayout = inflater.inflate(R.layout.fragment_detail_contact, container, false);
 
@@ -118,11 +119,11 @@ public class DetailContactFragment extends Fragment
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         if (requestCode == Constant._REQUEST_EDIT_CONTACT) {
             if (resultCode == Activity.RESULT_OK)
             {
-                //showUpdatedMessage();
                 getActivity().setResult(Constant._REQUEST_EDIT_CONTACT);
                 getActivity().finish();
             }
@@ -155,7 +156,8 @@ public class DetailContactFragment extends Fragment
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         switch (item.getItemId()) {
             case R.id._menuEdit:
                 actionEditContact();
@@ -184,7 +186,8 @@ public class DetailContactFragment extends Fragment
         }
     }
 
-    private class DeleteContactTask extends AsyncTask<Void, Void, Integer> {
+    private class DeleteContactTask extends AsyncTask<Void, Void, Integer>
+    {
 
         @Override
         protected Integer doInBackground(Void... voids) {

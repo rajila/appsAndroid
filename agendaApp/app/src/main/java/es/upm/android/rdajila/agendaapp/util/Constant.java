@@ -7,4 +7,10 @@ public class Constant
     public static final int _REQUEST_SHOW_CONTACT = 3;
 
     public static final String _KEY_ID_CONTACT = "_IDCONTACT";
+
+    public static final int _PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+
+    public static final String _NAME_FILE = "contacts.data";
+
+    public static final String _STRING_EMPTY = "";
 }

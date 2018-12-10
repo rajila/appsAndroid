@@ -20,7 +20,6 @@ public class ContactCursorAdapter extends CursorAdapter
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent)
     {
-        //LayoutInflater inflater = LayoutInflater.from(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         return inflater.inflate(R.layout.list_item_contact, parent, false);
     }

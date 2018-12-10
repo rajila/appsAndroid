@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import es.upm.android.rdajila.agendaapp.R;
-import es.upm.android.rdajila.agendaapp.data.ScheduleDbHelper;
+import es.upm.android.rdajila.agendaapp.data.ContactBookDbHelper;
 import es.upm.android.rdajila.agendaapp.entity.Contact;
 import es.upm.android.rdajila.agendaapp.util.Constant;
 
@@ -30,7 +30,7 @@ import es.upm.android.rdajila.agendaapp.util.Constant;
  */
 public class AddEditContactFragment extends Fragment
 {
-    private ScheduleDbHelper _db;
+    private ContactBookDbHelper _db;
 
     private static final String TAG = AddEditContactFragment.class.getSimpleName();
 
@@ -66,7 +66,7 @@ public class AddEditContactFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        _db = new ScheduleDbHelper(getActivity());
+        _db = new ContactBookDbHelper(getActivity());
         // Inflate the layout for this fragment
         View _viewLayout = inflater.inflate(R.layout.fragment_add_edit_contact, container, false);
 

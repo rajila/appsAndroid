@@ -8,12 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import es.upm.android.rdajila.agendaapp.contract.ContactContract;
 import es.upm.android.rdajila.agendaapp.entity.Contact;
 
-public class ScheduleDbHelper extends SQLiteOpenHelper
+public class ContactBookDbHelper extends SQLiteOpenHelper
 {
     private static final int _VERSION = 1;
     private static final String _NAME = "ScheduleDb.db";
 
-    public ScheduleDbHelper(Context context)
+    public ContactBookDbHelper(Context context)
     {
         super(context, _NAME, null, _VERSION);
     }
@@ -33,7 +33,6 @@ public class ScheduleDbHelper extends SQLiteOpenHelper
 
         // Insertar valores de inicio
         //initData(db);
-        //Log.i("DB --> ","Ingreso DB");
     }
 
     private void initData(SQLiteDatabase db)

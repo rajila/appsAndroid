@@ -1,18 +1,18 @@
 package es.upm.android.rdajila.agendaapp;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Handler;
-import android.support.annotation.RestrictTo;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.support.v7.widget.Toolbar;
 
+
 public class MainActivity extends AppCompatActivity
 {
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private RelativeLayout _layoutContenido;
     private RelativeLayout _layoutInicio;
     private RelativeLayout _layoutPrincipal;
@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity
                 _layoutInicio.setVisibility(View.GONE);
                 _layoutPrincipal.setBackgroundColor(getResources().getColor(R.color.colorBlanco));
                 _toolbarApp.setVisibility(View.VISIBLE);
-                //_btnAdd.show();
 
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id._contenidoLayout, new ListContactFragment())
@@ -50,11 +49,17 @@ public class MainActivity extends AppCompatActivity
         _layoutInicio = (RelativeLayout) findViewById(R.id._contenidoInicio);
         _layoutContenido = (RelativeLayout) findViewById(R.id._contenidoLayout);
         _toolbarApp = (Toolbar) findViewById(R.id._toolbarApp);
-
         _toolbarApp.setTitle(R.string.app_name);
-        _toolbarApp.inflateMenu(R.menu.menu_main);
+        setSupportActionBar(_toolbarApp);
 
         // Efecto de pantalla de inicio
         _handler.postDelayed(_runnable, 4000); //2000 is the timeout for the splash
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
