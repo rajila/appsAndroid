@@ -1,5 +1,7 @@
 package es.upm.android.rdajila.agendaapp.util;
 
+import android.content.res.Resources;
+
 public class Constant
 {
     public static final int _REQUEST_ADD_CONTACT = 1;
@@ -13,4 +15,7 @@ public class Constant
     public static final String _NAME_FILE = "contacts.data";
 
     public static final String _STRING_EMPTY = "";
+
+    // Referencia en values: integer: max_character
+    public static final int _MAX_CHARACTER = 50;
 }

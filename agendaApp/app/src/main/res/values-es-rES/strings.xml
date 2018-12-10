@@ -32,4 +32,10 @@
     <string name="msn_export_error">Error al exportar contactos</string>
     <string name="msn_import_ok">Importación de contactos exitosa</string>
     <string name="msn_export_ok">Exportación de contactos exitosa</string>
+    <string name="form_name_error">Nombre Inválido</string>
+    <string name="form_adress_error">Dirección Inválido</string>
+    <string name="form_mobile_error">Móvil Inválido</string>
+    <string name="form_phone_error">Teléfono Inválido</string>
+    <string name="form_email_error">Correo Inválido</string>
+    <string name="form_general_error">Error, por favor revisar los campos en rojo</string>
 </resources>

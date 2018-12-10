@@ -3,6 +3,7 @@ package es.upm.android.rdajila.agendaapp.util;
 import android.database.Cursor;
 import android.os.Environment;
 import android.util.Log;
+import android.util.Patterns;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.regex.Pattern;
 
 import es.upm.android.rdajila.agendaapp.contract.ContactContract;
 import es.upm.android.rdajila.agendaapp.data.ContactBookDbHelper;
@@ -21,6 +23,26 @@ import es.upm.android.rdajila.agendaapp.entity.Contact;
 public class Util
 {
     private static final String TAG = Util.class.getSimpleName();
+
+    public static boolean isNameOK(String name)
+    {
+        return Pattern.compile("^[a-zA-ZÑáéíóúñ ]+$").matcher(name).matches() && name.length() <= Constant._MAX_CHARACTER;
+    }
+
+    public static boolean isAdressOK(String adress)
+    {
+        return adress.length() <= Constant._MAX_CHARACTER && !adress.isEmpty();
+    }
+
+    public static boolean isMobilePhoneOK(String data)
+    {
+        return Patterns.PHONE.matcher(data).matches();
+    }
+
+    public static boolean isEmailOK(String email)
+    {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
 
     public static boolean exportContactsJSON(Cursor cursor)
     {

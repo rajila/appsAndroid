@@ -32,4 +32,10 @@
     <string name="msn_export_error">Error exporting contacts</string>
     <string name="msn_import_ok">Successful contact import</string>
     <string name="msn_export_ok">Successful contact export</string>
+    <string name="form_name_error">Invalid Name</string>
+    <string name="form_adress_error">Invalid Adress</string>
+    <string name="form_mobile_error">Invalid Mobile</string>
+    <string name="form_phone_error">Invalid Phone</string>
+    <string name="form_email_error">Invalid Email</string>
+    <string name="form_general_error">Error, please check the fields in red</string>
 </resources>

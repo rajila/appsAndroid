@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import es.upm.android.rdajila.agendaapp.R;
 import es.upm.android.rdajila.agendaapp.data.ContactBookDbHelper;
 import es.upm.android.rdajila.agendaapp.entity.Contact;
 import es.upm.android.rdajila.agendaapp.util.Constant;
+import es.upm.android.rdajila.agendaapp.util.Util;
 
 
 /**
@@ -78,18 +81,68 @@ public class AddEditContactFragment extends Fragment
 
         _tilName = (TextInputLayout)_viewLayout.findViewById(R.id._til_name);
         _fieldName = (EditText)_viewLayout.findViewById(R.id._field_name);
+        _fieldName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { _tilName.setError(null); }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         _tilAdress = (TextInputLayout)_viewLayout.findViewById(R.id._til_adress);
         _fieldAdress = (EditText)_viewLayout.findViewById(R.id._field_adress);
+        _fieldAdress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { _tilAdress.setError(null); }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         _tilMobile = (TextInputLayout)_viewLayout.findViewById(R.id._til_mobile);
         _fieldMobile = (EditText)_viewLayout.findViewById(R.id._field_mobile);
+        _fieldMobile.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { _tilMobile.setError(null); }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         _tilPhone = (TextInputLayout)_viewLayout.findViewById(R.id._til_phone);
         _fieldPhone = (EditText)_viewLayout.findViewById(R.id._field_phone);
+        _fieldPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { _tilPhone.setError(null); }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         _tilEmail = (TextInputLayout)_viewLayout.findViewById(R.id._til_email);
         _fieldEmail = (EditText)_viewLayout.findViewById(R.id._field_email);
+        _fieldEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { _tilEmail.setError(null); }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         // Carga de datos
         if (_idContact != null) loadContactDB();
@@ -112,8 +165,33 @@ public class AddEditContactFragment extends Fragment
         String _phone = _fieldPhone.getText().toString();
         String _email = _fieldEmail.getText().toString();
 
-        Contact _contact = new Contact(_name,_adress,_mobile,_phone,_email);
-        new AddEditContactTask().execute(_contact);
+        boolean _stateValidateName = Util.isNameOK(_name);
+        boolean _stateValidateAdress = Util.isAdressOK(_adress);
+        boolean _stateValidateMobile = Util.isMobilePhoneOK(_mobile);
+        boolean _stateValidatePhone = Util.isMobilePhoneOK(_phone);
+        boolean _stateValidateEmail = Util.isEmailOK(_email);
+
+        if( !_stateValidateName ) _tilName.setError(getResources().getString(R.string.form_name_error));
+        else _tilName.setError(null);
+
+        if( !_stateValidateAdress ) _tilAdress.setError(getResources().getString(R.string.form_adress_error));
+        else _tilAdress.setError(null);
+
+        if( !_stateValidateMobile ) _tilMobile.setError(getResources().getString(R.string.form_mobile_error));
+        else _tilMobile.setError(null);
+
+        if( !_stateValidatePhone ) _tilPhone.setError(getResources().getString(R.string.form_phone_error));
+        else _tilPhone.setError(null);
+
+        if( !_stateValidateEmail ) _tilEmail.setError(getResources().getString(R.string.form_email_error));
+        else _tilEmail.setError(null);
+
+        if( _stateValidateName && _stateValidateAdress && _stateValidateMobile && _stateValidatePhone && _stateValidateEmail )
+        {
+            Contact _contact = new Contact(_name, _adress, _mobile, _phone, _email);
+            new AddEditContactTask().execute(_contact);
+        }else
+            Toast.makeText(getActivity(), R.string.form_general_error, Toast.LENGTH_SHORT).show();
     }
 
     private void showListContactScreen(Boolean requery)
