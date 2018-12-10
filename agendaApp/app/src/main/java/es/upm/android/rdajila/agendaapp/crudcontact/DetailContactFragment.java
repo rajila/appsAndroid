@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ public class DetailContactFragment extends Fragment
     private static final String TAG = DetailContactFragment.class.getSimpleName();
 
     private String _idContact = null;
+    private String _movilDB = "";
 
     private Toolbar _toolbarApp;
 
@@ -48,6 +50,8 @@ public class DetailContactFragment extends Fragment
     private TextView _valueMobile;
     private TextView _valuePhone;
     private TextView _valueEmail;
+
+    private FloatingActionButton _btnCall;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +79,12 @@ public class DetailContactFragment extends Fragment
         _valuePhone = (TextView) _viewLayout.findViewById(R.id._valuePhone);
         _valueEmail = (TextView) _viewLayout.findViewById(R.id._valueEmail);
 
+        _btnCall = (FloatingActionButton)getActivity().findViewById(R.id._btnCall);
+        _btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { actionCall(); }
+        });
+
         loadDetailContact();
 
         return _viewLayout;
@@ -93,6 +103,14 @@ public class DetailContactFragment extends Fragment
         _valuePhone.setText(data.get_phone());
         _valueEmail.setText(data.get_email());
         _mCollapsingView.setBackgroundResource(R.color.colorG);
+        _movilDB = data.get_mobile();
+    }
+
+    private void actionCall()
+    {
+        Intent i = new Intent(Intent.ACTION_DIAL);
+        i.setData(Uri.parse("tel:" + _movilDB));
+        startActivity(i);
     }
 
     private void actionEditContact()
@@ -104,11 +122,17 @@ public class DetailContactFragment extends Fragment
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constant._REQUEST_EDIT_CONTACT)
-            if (resultCode == Activity.RESULT_OK) showUpdatedMessage();
+        if (requestCode == Constant._REQUEST_EDIT_CONTACT) {
+            if (resultCode == Activity.RESULT_OK)
+            {
+                //showUpdatedMessage();
+                getActivity().setResult(Constant._REQUEST_EDIT_CONTACT);
+                getActivity().finish();
+            }
+        }
     }
 
-    private void showLawyersScreen(boolean requery)
+    private void showListContactScreen(boolean requery)
     {
         if ( !requery )
             showDeleteContactDBError();
@@ -172,7 +196,7 @@ public class DetailContactFragment extends Fragment
 
         @Override
         protected void onPostExecute(Integer integer) {
-            showLawyersScreen(integer > 0);
+            showListContactScreen(integer > 0);
         }
 
     }

@@ -97,15 +97,14 @@ public class ListContactFragment extends Fragment
                 case Constant._REQUEST_ADD_CONTACT:
                     showSavedMessage();
                     break;
-                case Constant._REQUEST_EDIT_CONTACT:
-                    showUpdatedMessage();
-                    break;
                 case Constant._REQUEST_SHOW_CONTACT:
                     showDeleteMessage();
                     break;
             }
-            loadContacts();
+        }else if(Constant._REQUEST_EDIT_CONTACT == resultCode){
+            showUpdatedMessage();
         }
+        loadContacts();
     }
 
     private void showSavedMessage()
