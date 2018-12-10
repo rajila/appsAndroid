@@ -25,24 +25,6 @@
             tools:context="es.upm.android.rdajila.agendaapp.crudcontact.AddEditContact"
             tools:showIn="@layout/activity_add_edit_contact">
 
-            <!--<LinearLayout
-                android:id="@+id/_area_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/_txtTitleAddEdit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/title_add_contact"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
-            </LinearLayout>-->
-
             <LinearLayout
                 android:id="@+id/_area_name"
                 android:layout_width="match_parent"

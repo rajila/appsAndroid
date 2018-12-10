@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -65,6 +66,10 @@ public class ListContactFragment extends Fragment
         _listContact = (ListView) _viewLayout.findViewById(R.id._listData);
         _contactAdaptador = new ContactCursorAdapter(getActivity(),null);
         _listContact.setAdapter(_contactAdaptador);
+        //_listContact.setDivider(new ColorDrawable(0x99F10529));   //0xAARRGGBB
+        //_listContact.setDivider(new ColorDrawable(getActivity().getResources().getColor(R.color.colorG)));
+        _listContact.setDivider(getActivity().getResources().getDrawable(R.drawable.divider));
+        _listContact.setDividerHeight(1);
 
         _listContact.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

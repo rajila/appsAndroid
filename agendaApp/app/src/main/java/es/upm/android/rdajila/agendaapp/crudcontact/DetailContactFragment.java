@@ -98,15 +98,15 @@ public class DetailContactFragment extends Fragment
 
     private void showDetailContact(Contact data)
     {
-        Random random = new Random();
+        //Random random = new Random();
         _mCollapsingView.setTitle(data.get_name());
         _valueAdress.setText(data.get_adress());
         _valueMobile.setText(data.get_mobile());
         _valuePhone.setText(data.get_phone());
         _valueEmail.setText(data.get_email());
         _mCollapsingView.setBackgroundResource(R.color.colorG);
-        int color = Color.argb(255, random.nextInt(250), random.nextInt(250), random.nextInt(250));
-        _mCollapsingView.setBackgroundColor(color);
+        //int color = Color.argb(255, random.nextInt(250), random.nextInt(250), random.nextInt(250));
+        _mCollapsingView.setBackgroundColor(data.get_color());
         _movilDB = data.get_mobile();
     }
 

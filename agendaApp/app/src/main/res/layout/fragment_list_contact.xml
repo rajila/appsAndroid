@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"
-        tools:listitem="@layout/list_item_contact" />
+        tools:listitem="@layout/list_item_contact"
+        android:dividerHeight="@dimen/margin_row"
+        android:paddingTop="@dimen/margin_row"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/_btnAdd"

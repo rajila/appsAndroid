@@ -11,7 +11,7 @@ import es.upm.android.rdajila.agendaapp.entity.Contact;
 public class ContactBookDbHelper extends SQLiteOpenHelper
 {
     private static final int _VERSION = 1;
-    private static final String _NAME = "ScheduleDb.db";
+    private static final String _NAME = "ContactBookDb.db";
 
     public ContactBookDbHelper(Context context)
     {
@@ -28,7 +28,8 @@ public class ContactBookDbHelper extends SQLiteOpenHelper
                 + ContactContract._ADRESS + " VARCHAR(100) NOT NULL,"
                 + ContactContract._MOBILE + " VARCHAR(100) NOT NULL,"
                 + ContactContract._PHONE + " VARCHAR(100),"
-                + ContactContract._EMAIL + " VARCHAR(100) NOT NULL)"
+                + ContactContract._EMAIL + " VARCHAR(100) NOT NULL,"
+                + ContactContract._COLOR + " INTEGER)"
         );
 
         // Insertar valores de inicio

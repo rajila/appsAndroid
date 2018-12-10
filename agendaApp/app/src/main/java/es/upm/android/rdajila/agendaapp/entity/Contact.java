@@ -2,6 +2,9 @@ package es.upm.android.rdajila.agendaapp.entity;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.graphics.Color;
+
+import java.util.Random;
 
 import es.upm.android.rdajila.agendaapp.contract.ContactContract;
 
@@ -13,14 +16,17 @@ public class Contact
     private String _mobile;
     private String _phone;
     private String _email;
+    private int _color;
 
     public Contact(String name, String adress, String mobile, String phone, String email)
     {
+        Random random = new Random();
         _name = name;
         _adress = adress;
         _mobile = mobile;
         _phone = phone;
         _email = email;
+        _color = Color.argb(255, random.nextInt(250), random.nextInt(150), random.nextInt(200));
     }
 
     public Contact(Cursor cursor)
@@ -31,6 +37,7 @@ public class Contact
         _mobile = cursor.getString(cursor.getColumnIndex(ContactContract._MOBILE));
         _phone = cursor.getString(cursor.getColumnIndex(ContactContract._PHONE));
         _email = cursor.getString(cursor.getColumnIndex(ContactContract._EMAIL));
+        _color = cursor.getInt(cursor.getColumnIndex(ContactContract._COLOR));
     }
 
     public ContentValues createContentValue()
@@ -41,6 +48,7 @@ public class Contact
         _contentVal.put(ContactContract._MOBILE, _mobile);
         _contentVal.put(ContactContract._PHONE, _phone);
         _contentVal.put(ContactContract._EMAIL, _email);
+        _contentVal.put(ContactContract._COLOR, _color);
         return _contentVal;
     }
 
@@ -90,5 +98,13 @@ public class Contact
 
     public void set_email(String _email) {
         this._email = _email;
+    }
+
+    public int get_color() {
+        return _color;
+    }
+
+    public void set_color(int _color) {
+        this._color = _color;
     }
 }

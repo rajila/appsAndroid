@@ -31,11 +31,11 @@ public class ContactCursorAdapter extends CursorAdapter
     @Override
     public void bindView(View view, Context context, Cursor cursor)
     {
-        Random random = new Random();
+        //Random random = new Random();
         TextView _name = (TextView) view.findViewById(R.id._nameList);
         _name.setText(cursor.getString(cursor.getColumnIndex(ContactContract._NAME)));
         ImageView _avatar = (ImageView) view.findViewById(R.id.iv_avatar);
-        int color = Color.argb(255, random.nextInt(250), random.nextInt(250), random.nextInt(250));
-        _avatar.setColorFilter(color);
+        //int color = Color.argb(255, random.nextInt(250), random.nextInt(250), random.nextInt(250));
+        _avatar.setColorFilter(cursor.getInt(cursor.getColumnIndex(ContactContract._COLOR)));
     }
 }
