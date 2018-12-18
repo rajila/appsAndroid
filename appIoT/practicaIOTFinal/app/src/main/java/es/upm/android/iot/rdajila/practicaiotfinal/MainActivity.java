@@ -17,7 +17,6 @@ import com.google.android.things.contrib.driver.button.ButtonInputDriver;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Random;
 
 /**
  * @see <a href="https://github.com/androidthings/contrib-drivers#readme">https://github.com/androidthings/contrib-drivers#readme</a>
@@ -27,23 +26,31 @@ import java.util.Random;
  */
 public class MainActivity extends Activity
 {
-    private Speaker mSpeaker;
+    // Objeto que hace referencia al Buzzer
+    private Speaker _mSpeaker;
 
+    // Objeto que hace referencia al button
     private ButtonInputDriver _btnPin;
 
+    // Objetos que hacen referencia a los LEDs
     private Gpio _redPin;
     private Gpio _greenPin;
     private Gpio _bluePin;
     private Gpio _yellowPin;
     private Gpio _whitePin;
 
+    // Objeto que administra la comunicación con los perifericos del hardware
     private PeripheralManager _manager;
+    // Hilo para ejecutar la acción del button en un hilo secuandario
     private HandlerThread _handlerThread;
     private Handler _handler;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    // Variable que nos ayuda a controlar la ejecución de la melodia.
     private boolean _flagButtonPress = false;
+
+    // Lista de los tonos de la Nota
     private HashMap<Integer, Note> TONO_STAR_WARS;
 
     @Override
@@ -60,6 +67,9 @@ public class MainActivity extends Activity
         _handler = new Handler(_handlerThread.getLooper());
     }
 
+    /**
+     * Función que inicializa las referencias de los objetos con el hardware
+     */
     private void initComponentsRPI()
     {
         try
@@ -85,8 +95,8 @@ public class MainActivity extends Activity
             _whitePin.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
             _whitePin.setValue(false);
 
-            mSpeaker = new Speaker(Constantes.PINBUZZER);
-            mSpeaker.stop(); // in case the PWM pin was enabled already
+            _mSpeaker = new Speaker(Constantes.PINBUZZER);
+            _mSpeaker.stop(); // in case the PWM pin was enabled already
 
             _btnPin = new ButtonInputDriver(Constantes.PINBUTTON, Button.LogicState.PRESSED_WHEN_LOW, KeyEvent.KEYCODE_SPACE);
             _btnPin.register();
@@ -102,40 +112,49 @@ public class MainActivity extends Activity
     {
         if (keyCode == KeyEvent.KEYCODE_SPACE)
         {
+            // Verifica si el boton ha sido presionado y la melodia aún esta sonando
+            // Treue --> La melodia aún esta sonando
+            // False --> La melodia ha terminado de sonar
             if( _flagButtonPress ) return true;
-            _handler.post(mPlaybackRunnable);
+            _handler.post(mPlaybackRunnable); // Ejecuta el hilo sencundario
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * Función que gestiona el sonido de la melodia
+     */
     private Runnable mPlaybackRunnable = new Runnable()
     {
         @Override
         public void run()
         {
-            if (mSpeaker == null) return;
+            if (_mSpeaker == null) return;
             try
             {
+                // Actualiza el valor de la bandera
                 _flagButtonPress = !_flagButtonPress;
+                // Reoorre los tonos de la melodia
                 for(int i=0; i<TONO_STAR_WARS.size(); i++)
                 {
+                    // Obtiene la nota
                     Note _note = TONO_STAR_WARS.get(i);
                     int _frequency = _note.get_frequency();
                     int _duration = _note.get_duration();
                     if( _frequency > 0 )
                     {
-                        mSpeaker.play(_frequency);
-                        setLedValue(_note.get_ledPin(),true);
-                        Thread.sleep(_duration);
-                        setLedValue(_note.get_ledPin(),false);
-                        mSpeaker.stop();
-                        Thread.sleep(50);
+                        _mSpeaker.play(_frequency); // Inicia a sonar el tono
+                        setLedValue(_note.get_ledPin(),true); // enciende el led correspondiene al tono
+                        Thread.sleep(_duration); // tiempo de vida del tono
+                        setLedValue(_note.get_ledPin(),false); // apaga el led
+                        _mSpeaker.stop(); // deja de sonar el tono
+                        Thread.sleep(50); // tiempo de espera para que inicie a sonar el siguiente tono
                     }else{
                         Thread.sleep(_duration);
                     }
                 }
-                _flagButtonPress = !_flagButtonPress;
+                _flagButtonPress = !_flagButtonPress; // Cambia el estado para estar listo para volver a escuchar el tono
             } catch (IOException e) {
                 Log.e(TAG, "Error RPI speaker", e);
             }
@@ -145,6 +164,11 @@ public class MainActivity extends Activity
         }
     };
 
+    /**
+     * Actualiza el estado de los LEDs
+     * @param objPin --> Objeto referencial al LED
+     * @param value True --> Enciende LED, False --> Apaga LED
+     */
     private void setLedValue(Gpio objPin, boolean value)
     {
         try {
@@ -154,6 +178,10 @@ public class MainActivity extends Activity
         }
     }
 
+    /**
+     * Elimina todas las referencias de los objetos a los LEDs
+     * @param objPin
+     */
     private void closePinLed(Gpio objPin)
     {
         if (objPin != null)
@@ -168,6 +196,10 @@ public class MainActivity extends Activity
         }
     }
 
+    /**
+     * Elimina la referencia del objeto al Boton
+     * @param objPin
+     */
     private void closePinButton(ButtonInputDriver objPin)
     {
         if (objPin != null)
@@ -183,20 +215,26 @@ public class MainActivity extends Activity
         }
     }
 
+    /**
+     * Elimina la referencia del objeto al Buzzer
+     */
     private void closePinSpeaker()
     {
-        if (mSpeaker != null) {
+        if (_mSpeaker != null) {
             try {
-                mSpeaker.stop();
-                mSpeaker.close();
+                _mSpeaker.stop();
+                _mSpeaker.close();
             } catch (IOException e) {
                 Log.e(TAG, "Error closing RPI speaker", e);
             } finally {
-                mSpeaker = null;
+                _mSpeaker = null;
             }
         }
     }
 
+    /**
+     * Elimina la referencia del hilo secuandario
+     */
     private void removeCallbacks()
     {
         if (_handler != null) {

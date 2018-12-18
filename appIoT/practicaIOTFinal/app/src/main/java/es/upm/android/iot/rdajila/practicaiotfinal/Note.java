@@ -2,12 +2,24 @@ package es.upm.android.iot.rdajila.practicaiotfinal;
 
 import com.google.android.things.pio.Gpio;
 
+/**
+ * Objeto que representa el tono de la melodia.
+ */
 public class Note
 {
+    // Frecuencia del tono
     private int _frequency;
+    // Duración de pitido del tono
     private  int _duration;
+    // Led asociado al tono
     private Gpio _ledPin;
 
+    /**
+     * Contructor de la Nota
+     * @param frequency Frecuencia
+     * @param duration Duración
+     * @param ledPin Objeto LED
+     */
     public Note(int frequency, int duration, Gpio ledPin)
     {
         this._frequency = frequency;
