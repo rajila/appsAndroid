@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -98,14 +100,17 @@ public class DetailContactFragment extends Fragment
 
     private void showDetailContact(Contact data)
     {
-        //Random random = new Random();
         _mCollapsingView.setTitle(data.get_name());
         _valueAdress.setText(data.get_adress());
         _valueMobile.setText(data.get_mobile());
         _valuePhone.setText(data.get_phone());
         _valueEmail.setText(data.get_email());
-        _mCollapsingView.setBackgroundResource(R.color.colorG);
-        //int color = Color.argb(255, random.nextInt(250), random.nextInt(250), random.nextInt(250));
+
+        Drawable buttonDrawable = _btnCall.getBackground();
+        buttonDrawable = DrawableCompat.wrap(buttonDrawable);
+        //the color is a direct color int and not a color resource
+        DrawableCompat.setTint(buttonDrawable, data.get_color());
+        _btnCall.setBackground(buttonDrawable);
         _mCollapsingView.setBackgroundColor(data.get_color());
         _movilDB = data.get_mobile();
     }
