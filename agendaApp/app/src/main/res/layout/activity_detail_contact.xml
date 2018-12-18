@@ -46,9 +46,9 @@
         android:layout_marginTop="@dimen/fab_margin"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/fab_margin"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:backgroundTint="@android:color/white"
         android:tint="@android:color/white"
-        app:backgroundTint="@color/colorPrimaryDark"
+        app:backgroundTint="@android:color/white"
         app:fabSize="normal"
         app:srcCompat="@drawable/ic_telefono" />
 

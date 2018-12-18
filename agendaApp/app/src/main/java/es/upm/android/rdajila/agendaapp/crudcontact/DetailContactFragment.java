@@ -8,11 +8,13 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +27,7 @@ import java.util.Random;
 import es.upm.android.rdajila.agendaapp.R;
 import es.upm.android.rdajila.agendaapp.data.ContactBookDbHelper;
 import es.upm.android.rdajila.agendaapp.entity.Contact;
+import es.upm.android.rdajila.agendaapp.util.AppBarStateChangeListener;
 import es.upm.android.rdajila.agendaapp.util.Constant;
 
 
@@ -44,14 +47,20 @@ public class DetailContactFragment extends Fragment
 
     private String _idContact = null;
     private String _movilDB = "";
+    private String _nameDB = "";
+    private int _colorDB = 000000;
 
     private Toolbar _toolbarApp;
+    private AppBarLayout _appBar;
 
     private CollapsingToolbarLayout _mCollapsingView;
     private TextView _valueAdress;
     private TextView _valueMobile;
     private TextView _valuePhone;
     private TextView _valueEmail;
+    private TextView _valueName;
+
+    private TextView _lblName;
 
     private FloatingActionButton _btnCall;
 
@@ -76,11 +85,46 @@ public class DetailContactFragment extends Fragment
 
         _mCollapsingView = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
         _toolbarApp = (Toolbar) getActivity().findViewById(R.id._toolbarApp);
+        _appBar = (AppBarLayout) getActivity().findViewById(R.id.app_bar);
+        _appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                Log.i("STATE", state.name());
+                if( state == State.COLLAPSED )
+                {
+                    _mCollapsingView.setTitle(getActivity().getResources().getString(R.string.title_detail_contact));
+                    _lblName.setVisibility(View.VISIBLE);
+                    _valueName.setVisibility(View.VISIBLE);
+
+                    Drawable buttonDrawable = _btnCall.getBackground();
+                    buttonDrawable = DrawableCompat.wrap(buttonDrawable);
+                    //the color is a direct color int and not a color resource
+                    DrawableCompat.setTint(buttonDrawable, Color.BLACK);
+                    _btnCall.setBackground(buttonDrawable);
+                }
+                if ( state == State.EXPANDED || state == State.IDLE )
+                {
+                    _mCollapsingView.setTitle(_nameDB);
+                    _lblName.setVisibility(View.GONE);
+                    _valueName.setVisibility(View.GONE);
+
+                    Drawable buttonDrawable = _btnCall.getBackground();
+                    buttonDrawable = DrawableCompat.wrap(buttonDrawable);
+                    //the color is a direct color int and not a color resource
+                    DrawableCompat.setTint(buttonDrawable, _colorDB);
+                    _btnCall.setBackground(buttonDrawable);
+                }
+
+            }
+        });
 
         _valueAdress = (TextView) _viewLayout.findViewById(R.id._valueAdress);
         _valueMobile = (TextView) _viewLayout.findViewById(R.id._valueMobile);
         _valuePhone = (TextView) _viewLayout.findViewById(R.id._valuePhone);
         _valueEmail = (TextView) _viewLayout.findViewById(R.id._valueEmail);
+        _valueName = (TextView) _viewLayout.findViewById(R.id._valueName);
+
+        _lblName = (TextView) _viewLayout.findViewById(R.id._lblName);
 
         _btnCall = (FloatingActionButton)getActivity().findViewById(R.id._btnCall);
         _btnCall.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +145,7 @@ public class DetailContactFragment extends Fragment
     private void showDetailContact(Contact data)
     {
         _mCollapsingView.setTitle(data.get_name());
+        _valueName.setText(data.get_name());
         _valueAdress.setText(data.get_adress());
         _valueMobile.setText(data.get_mobile());
         _valuePhone.setText(data.get_phone());
@@ -113,6 +158,8 @@ public class DetailContactFragment extends Fragment
         _btnCall.setBackground(buttonDrawable);
         _mCollapsingView.setBackgroundColor(data.get_color());
         _movilDB = data.get_mobile();
+        _nameDB = data.get_name();
+        _colorDB = data.get_color();
     }
 
     private void actionCall()

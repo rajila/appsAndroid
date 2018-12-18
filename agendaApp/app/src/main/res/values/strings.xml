@@ -38,4 +38,5 @@
     <string name="form_phone_error">Invalid Phone</string>
     <string name="form_email_error">Invalid Email</string>
     <string name="form_general_error">Error, please check the fields in red</string>
+    <string name="title_contact_detail">Contact detail</string>
 </resources>
