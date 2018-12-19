@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import es.upm.android.rdajila.agendaapp.contract.ContactContract;
 import es.upm.android.rdajila.agendaapp.entity.Contact;
 
+/**
+ * Clase que gestiona la administración de BASE DATOS
+ */
 public class ContactBookDbHelper extends SQLiteOpenHelper
 {
     private static final int _VERSION = 1;
@@ -36,6 +39,10 @@ public class ContactBookDbHelper extends SQLiteOpenHelper
         //initData(db);
     }
 
+    /**
+     * Función que carga datos al crear la base de datos
+     * @param db
+     */
     private void initData(SQLiteDatabase db)
     {
         insertContactInit(db, new Contact("Ronald","Madrid","0989322323","0989322323","rdajila@gmail.com"));
@@ -46,6 +53,12 @@ public class ContactBookDbHelper extends SQLiteOpenHelper
         insertContactInit(db, new Contact("Cindy","Guayaquil","0989322323","0989322323","cindy@gmail.com"));
     }
 
+    /**
+     * Inserta los datos a DB
+     * @param db
+     * @param contacto
+     * @return
+     */
     private long insertContactInit(SQLiteDatabase db, Contact contacto)
     {
         long _id = db.insert(ContactContract._TABLE_NAME,null, contacto.createContentValue());
@@ -53,6 +66,11 @@ public class ContactBookDbHelper extends SQLiteOpenHelper
         return _id;
     }
 
+    /**
+     * Inserta el contacto
+     * @param contacto
+     * @return
+     */
     public long insertContact(Contact contacto)
     {
         SQLiteDatabase _db = getReadableDatabase();
@@ -68,6 +86,10 @@ public class ContactBookDbHelper extends SQLiteOpenHelper
         onCreate(db);
     }
 
+    /**
+     * Obtiene todos los contactos
+     * @return
+     */
     public Cursor getAllContacts()
     {
         return getReadableDatabase()
@@ -82,6 +104,11 @@ public class ContactBookDbHelper extends SQLiteOpenHelper
                         null);
     }
 
+    /**
+     * Obtiene un contacto por ID
+     * @param idContact
+     * @return
+     */
     public Cursor getContactById(String idContact)
     {
         Cursor _cursorDB = getReadableDatabase().query(
@@ -95,6 +122,12 @@ public class ContactBookDbHelper extends SQLiteOpenHelper
         return _cursorDB;
     }
 
+    /**
+     * Actualiza la información del contacto
+     * @param data
+     * @param idContact
+     * @return
+     */
     public int updateContact(Contact data, String idContact)
     {
         return getWritableDatabase().update(
@@ -105,6 +138,11 @@ public class ContactBookDbHelper extends SQLiteOpenHelper
         );
     }
 
+    /**
+     * Elimina un contacto de DB
+     * @param idContact
+     * @return
+     */
     public int deleteContact(String idContact)
     {
         return getWritableDatabase().delete(

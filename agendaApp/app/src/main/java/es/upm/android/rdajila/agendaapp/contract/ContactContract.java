@@ -2,6 +2,9 @@ package es.upm.android.rdajila.agendaapp.contract;
 
 import android.provider.BaseColumns;
 
+/**
+ * Clase que gestiona las columnas de la entidad Contacto
+ */
 public abstract class ContactContract implements BaseColumns
 {
     public static final String _TABLE_NAME = "contact";

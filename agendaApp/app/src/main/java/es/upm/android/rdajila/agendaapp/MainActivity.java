@@ -20,6 +20,9 @@ public class MainActivity extends AppCompatActivity
 
     Handler _handler = new Handler();
 
+    /**
+     * Hilo secuandario que gestiona la pantalla de inicio de la aplicación
+     */
     Runnable _runnable = new Runnable() {
         @Override
         public void run()

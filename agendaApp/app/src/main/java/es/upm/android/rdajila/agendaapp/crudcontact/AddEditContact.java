@@ -13,6 +13,9 @@ import es.upm.android.rdajila.agendaapp.ListContactFragment;
 import es.upm.android.rdajila.agendaapp.R;
 import es.upm.android.rdajila.agendaapp.util.Constant;
 
+/**
+ * Clase que gestiona la Creación o Edicion de contacto
+ */
 public class AddEditContact extends AppCompatActivity
 {
     private static final String TAG = AddEditContact.class.getSimpleName();
@@ -29,10 +32,11 @@ public class AddEditContact extends AppCompatActivity
         setSupportActionBar(_toolbarApp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        _idContact = getIntent().getStringExtra(Constant._KEY_ID_CONTACT);
+        _idContact = getIntent().getStringExtra(Constant._KEY_ID_CONTACT); // Capturamos el id del contacto para editar la informacion
 
-        setTitle( (_idContact == null)?R.string.title_add_contact:R.string.title_edit_contact );
+        setTitle( (_idContact == null)?R.string.title_add_contact:R.string.title_edit_contact ); // Actualiza el titulo de la actividad
 
+        // Inflamos el fragmento que gestiona la creacion y edicion de contacto
         AddEditContactFragment _fragment = new AddEditContactFragment();
         Bundle args = new Bundle();
         args.putString(Constant._KEY_ID_CONTACT, _idContact);

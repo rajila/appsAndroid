@@ -8,6 +8,9 @@ import java.util.Random;
 
 import es.upm.android.rdajila.agendaapp.contract.ContactContract;
 
+/**
+ * Clase Contacto
+ */
 public class Contact
 {
     private Long _id;
@@ -18,6 +21,14 @@ public class Contact
     private String _email;
     private int _color;
 
+    /**
+     * Contructor que crea un contacto sin ID
+     * @param name
+     * @param adress
+     * @param mobile
+     * @param phone
+     * @param email
+     */
     public Contact(String name, String adress, String mobile, String phone, String email)
     {
         Random random = new Random();
@@ -26,9 +37,14 @@ public class Contact
         _mobile = mobile;
         _phone = phone;
         _email = email;
+        // Definimos un color para el contacto
         _color = Color.argb(255, random.nextInt(250), random.nextInt(150), random.nextInt(200));
     }
 
+    /**
+     * Contructor que crea un contacto a partir de base de datos
+     * @param cursor
+     */
     public Contact(Cursor cursor)
     {
         _id = Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactContract._ID)));
@@ -40,6 +56,10 @@ public class Contact
         _color = cursor.getInt(cursor.getColumnIndex(ContactContract._COLOR));
     }
 
+    /**
+     * Función que prepara el contenedor con los respectivos valores para insertar en base de datos
+     * @return
+     */
     public ContentValues createContentValue()
     {
         ContentValues _contentVal = new ContentValues();

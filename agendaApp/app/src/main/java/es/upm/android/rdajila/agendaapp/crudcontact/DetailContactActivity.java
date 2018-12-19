@@ -8,6 +8,9 @@ import android.view.Menu;
 import es.upm.android.rdajila.agendaapp.R;
 import es.upm.android.rdajila.agendaapp.util.Constant;
 
+/**
+ * Clase que gestiona la pantalla de Detalle del Contacto
+ */
 public class DetailContactActivity extends AppCompatActivity
 {
     private static final String TAG = AddEditContact.class.getSimpleName();

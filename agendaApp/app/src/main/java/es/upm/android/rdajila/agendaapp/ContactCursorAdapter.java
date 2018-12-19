@@ -14,6 +14,9 @@ import java.util.Random;
 
 import es.upm.android.rdajila.agendaapp.contract.ContactContract;
 
+/**
+ * Clase Adaptador que gestiona la carga de contanctos en el listado
+ */
 public class ContactCursorAdapter extends CursorAdapter
 {
     public ContactCursorAdapter(Context context, Cursor c)

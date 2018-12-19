@@ -144,17 +144,23 @@ public class AddEditContactFragment extends Fragment
             public void afterTextChanged(Editable s) {}
         });
 
-        // Carga de datos
+        // Carga de datos si existe el idContacto
         if (_idContact != null) loadContactDB();
 
         return _viewLayout;
     }
 
+    /**
+     * Carga los datos del contacto desde DB
+     */
     private void loadContactDB()
     {
         new GetContactByIdTask().execute();
     }
 
+    /**
+     * Guarda el contacto
+     */
     private void saveContact()
     {
         Log.i(TAG, "Save Contact!!");
@@ -165,6 +171,9 @@ public class AddEditContactFragment extends Fragment
         String _phone = _fieldPhone.getText().toString();
         String _email = _fieldEmail.getText().toString();
 
+        /**
+         * Verificamos si los campos son correctos
+         */
         boolean _stateValidateName = Util.isNameOK(_name);
         boolean _stateValidateAdress = Util.isAdressOK(_adress);
         boolean _stateValidateMobile = Util.isMobilePhoneOK(_mobile);
@@ -194,6 +203,10 @@ public class AddEditContactFragment extends Fragment
             Toast.makeText(getActivity(), R.string.form_general_error, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Carga la pantalla de listado de contactos
+     * @param requery
+     */
     private void showListContactScreen(Boolean requery)
     {
         if ( !requery )
@@ -205,6 +218,10 @@ public class AddEditContactFragment extends Fragment
         getActivity().finish();
     }
 
+    /**
+     * Actualiza los valores del formulario con los datos de DB
+     * @param data
+     */
     private void loadDetailContact(Contact data)
     {
         _fieldName.setText(data.get_name());
@@ -224,6 +241,9 @@ public class AddEditContactFragment extends Fragment
         Toast.makeText(getActivity(), R.string.msn_error_save_data, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Clase que gestiona la creación y actualizacin del contacto
+     */
     private class AddEditContactTask extends AsyncTask<Contact, Void, Boolean>
     {
         @Override
@@ -246,6 +266,9 @@ public class AddEditContactFragment extends Fragment
         }
     }
 
+    /**
+     * Clase que gestiona la obtención del contacto
+     */
     private class GetContactByIdTask extends AsyncTask<Void, Void, Cursor>
     {
         @Override
@@ -259,6 +282,7 @@ public class AddEditContactFragment extends Fragment
             if (cursor != null && cursor.moveToLast()) {
                 loadDetailContact(new Contact(cursor));
             } else {
+                // Si hay error al cargar los datos
                 showLoadContactDBError();
                 getActivity().setResult(Activity.RESULT_CANCELED);
                 getActivity().finish();

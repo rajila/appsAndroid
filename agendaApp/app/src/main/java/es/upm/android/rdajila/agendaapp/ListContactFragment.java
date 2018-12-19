@@ -90,12 +90,19 @@ public class ListContactFragment extends Fragment
         return _viewLayout;
     }
 
+    /**
+     * Función que levanta la actividad New/Edit Contacto
+     */
     private void actionAddContact()
     {
         Intent _intentView = new Intent( getActivity(), AddEditContact.class );
         startActivityForResult( _intentView, Constant._REQUEST_ADD_CONTACT ); // Constant._REQUEST_ADD_CONTACT valor del resultCode
     }
 
+    /**
+     * Función que levanta la actividad Detalle Contacto
+     * @param idContact
+     */
     private void showDetailScreen(String idContact)
     {
         Intent intent = new Intent(getActivity(), DetailContactActivity.class);
@@ -123,36 +130,51 @@ public class ListContactFragment extends Fragment
         loadContacts();
     }
 
+    /**
+     * Mensaje de guardado exitoso
+     */
     private void showSavedMessage()
     {
         Toast.makeText(getActivity(), R.string.msn_save_contact, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Mensaje de actualización exitosa
+     */
     private void showUpdatedMessage()
     {
         Toast.makeText(getActivity(), R.string.msn_update_contact, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Mensaje de borrado exitoso
+     */
     private void showDeleteMessage()
     {
         Toast.makeText(getActivity(), R.string.msn_delete_contact, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Carga el listado de contactos
+     */
     private void loadContacts()
     {
         new ContactLoadTask().execute();
     }
 
+    /**
+     * Clase que controla la carga de todos los contactos
+     */
     private class ContactLoadTask extends AsyncTask<Void, Void, Cursor>
     {
         @Override
         protected Cursor doInBackground(Void... voids) {
-            return _db.getAllContacts();
+            return _db.getAllContacts(); // Consulta todos los contactos
         }
 
         @Override
         protected void onPostExecute(Cursor cursor) {
-            _contactAdaptador.swapCursor(cursor);
+            _contactAdaptador.swapCursor(cursor); // El adaptador de la lista pinta los datos en la lista
             //if (cursor != null && cursor.getCount() > 0) {
             //    _contactAdaptador.swapCursor(cursor);
             //} else {
@@ -165,13 +187,13 @@ public class ListContactFragment extends Fragment
     public boolean onOptionsItemSelected(MenuItem item) {
         switch ( item.getItemId() )
         {
-            case R.id.action_import:
+            case R.id.action_import: // Importar los contactos
                 Log.i(TAG,"ACTION IMPORT");
                 if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) || Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED_READ_ONLY))
                 {
-                    if( checkPermission() )
+                    if( checkPermission() ) // Verifica que haya permisos de escritura en memo externa
                     {
-                        if( Util.importContactsJSON(_db) )
+                        if( Util.importContactsJSON(_db) ) // Verifica que la importación se realizco correctamente
                         {
                             loadContacts();
                             Toast.makeText(getActivity(), R.string.msn_import_ok, Toast.LENGTH_SHORT).show();
@@ -181,13 +203,13 @@ public class ListContactFragment extends Fragment
                 } else Toast.makeText(getActivity(), R.string.msn_access_sd_error, Toast.LENGTH_SHORT).show();
 
                 break;
-            case R.id.action_export:
+            case R.id.action_export: // Exporta los contactos
                 Log.i(TAG,"ACTION EXPORT");
                 if ( Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) )
                 {
-                    if( checkPermission() )
+                    if( checkPermission() ) // Verifica que haya permisos de escritura en memo externa
                     {
-                        if( Util.exportContactsJSON(_db.getAllContacts()) )
+                        if( Util.exportContactsJSON(_db.getAllContacts()) ) // Verifica que la expertación se haya realizado correctamene
                             Toast.makeText(getActivity(), R.string.msn_export_ok, Toast.LENGTH_SHORT).show();
                         else
                             Toast.makeText(getActivity(), R.string.msn_export_error, Toast.LENGTH_SHORT).show();
@@ -199,6 +221,10 @@ public class ListContactFragment extends Fragment
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Verifica los permisos necesarios para la Exportación e Importación de contactos
+     * @return
+     */
     public boolean checkPermission()
     {
         boolean _permisosOK = true;

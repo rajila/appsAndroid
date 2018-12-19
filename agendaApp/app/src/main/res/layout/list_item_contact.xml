@@ -10,9 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="72dp"
-        android:text="New Text"
+        android:text="@string/value_default"
         android:textAppearance="?textAppearanceListItem"
-        tools:text="Carlos Giron" />
+        tools:text="@string/value_default" />
 
     <ImageView
         android:id="@+id/iv_avatar"

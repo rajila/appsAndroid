@@ -132,16 +132,24 @@ public class DetailContactFragment extends Fragment
             public void onClick(View v) { actionCall(); }
         });
 
+        // Carga los datos del contacto
         loadDetailContact();
 
         return _viewLayout;
     }
 
+    /**
+     * Función que ejecuta la tarea que carga los datos del contacto
+     */
     private void loadDetailContact()
     {
         new GetContactByIdTask().execute();
     }
 
+    /**
+     * Actualiza el valor de los campos del contacto en la pantalla
+     * @param data
+     */
     private void showDetailContact(Contact data)
     {
         _mCollapsingView.setTitle(data.get_name());
@@ -162,6 +170,9 @@ public class DetailContactFragment extends Fragment
         _colorDB = data.get_color();
     }
 
+    /**
+     * Función que permite cargar la pantalla de Llamar
+     */
     private void actionCall()
     {
         Intent i = new Intent(Intent.ACTION_DIAL);
@@ -169,6 +180,9 @@ public class DetailContactFragment extends Fragment
         startActivity(i);
     }
 
+    /**
+     * Función que levanta la pantalla para editar contacto
+     */
     private void actionEditContact()
     {
         Intent intent = new Intent(getActivity(), AddEditContact.class);
@@ -198,16 +212,25 @@ public class DetailContactFragment extends Fragment
         }
     }
 
+    /**
+     * Mensaje OK de actualización de contacto
+     */
     private void showUpdatedMessage()
     {
         Toast.makeText(getActivity(), R.string.msn_update_contact, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Mensaje de ERROR al cargar los datos
+     */
     private void showLoadContactDBError()
     {
         Toast.makeText(getActivity(), R.string.msn_error_load_data, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Mensaje de ERROR  al eliminar un contacto
+     */
     private void showDeleteContactDBError()
     {
         Toast.makeText(getActivity(), R.string.msn_error_delete_data, Toast.LENGTH_SHORT).show();
@@ -217,16 +240,19 @@ public class DetailContactFragment extends Fragment
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId()) {
-            case R.id._menuEdit:
+            case R.id._menuEdit: // Editar
                 actionEditContact();
                 break;
-            case R.id._menuDelete:
+            case R.id._menuDelete: // Eliminar
                 new DeleteContactTask().execute();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Clase gestiona la obtencion de los datos del contacto de DB
+     */
     private class GetContactByIdTask extends AsyncTask<Void, Void, Cursor>
     {
         @Override
@@ -244,6 +270,9 @@ public class DetailContactFragment extends Fragment
         }
     }
 
+    /**
+     * Clase que gestiona la eliminación del contacto de DB
+     */
     private class DeleteContactTask extends AsyncTask<Void, Void, Integer>
     {
 
