@@ -64,22 +64,4 @@
 
     <include layout="@layout/content_layout" />
 
-    <!--<android.support.design.widget.FloatingActionButton
-        android:id="@+id/_btnAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|end"
-        android:layout_marginStart="@dimen/fab_margin"
-        android:layout_marginTop="@dimen/fab_margin"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:tint="@android:color/white"
-        android:visibility="gone"
-        app:backgroundTint="@color/colorPrimaryDark"
-        app:fabSize="normal"
-        app:srcCompat="@drawable/ic_account_plus" />-->
-
 </RelativeLayout>

@@ -12,15 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/ThemeNoBar">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".crudcontact.AddEditContact" />
-        <activity android:name=".crudcontact.DetailContactActivity"></activity>
+        <activity android:name=".crudcontact.AddEditContact" android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name=".crudcontact.DetailContactActivity" android:configChanges="orientation|keyboardHidden|screenSize"></activity>
     </application>
 
 </manifest>
