@@ -83,10 +83,10 @@ public class DetailContactFragment extends Fragment
         // Inflate the layout for this fragment
         View _viewLayout = inflater.inflate(R.layout.fragment_detail_contact, container, false);
 
-        _mCollapsingView = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
+        //_mCollapsingView = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
         _toolbarApp = (Toolbar) getActivity().findViewById(R.id._toolbarApp);
-        _appBar = (AppBarLayout) getActivity().findViewById(R.id.app_bar);
-        _appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+        //_appBar = (AppBarLayout) getActivity().findViewById(R.id.app_bar);
+        /*_appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 Log.i("STATE", state.name());
@@ -116,7 +116,7 @@ public class DetailContactFragment extends Fragment
                 }
 
             }
-        });
+        });*/
 
         _valueAdress = (TextView) _viewLayout.findViewById(R.id._valueAdress);
         _valueMobile = (TextView) _viewLayout.findViewById(R.id._valueMobile);
@@ -126,11 +126,11 @@ public class DetailContactFragment extends Fragment
 
         _lblName = (TextView) _viewLayout.findViewById(R.id._lblName);
 
-        _btnCall = (FloatingActionButton)getActivity().findViewById(R.id._btnCall);
-        _btnCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { actionCall(); }
-        });
+        //_btnCall = (FloatingActionButton)getActivity().findViewById(R.id._btnCall);
+        //_btnCall.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View v) { actionCall(); }
+        //});
 
         // Carga los datos del contacto
         loadDetailContact();
@@ -185,9 +185,9 @@ public class DetailContactFragment extends Fragment
      */
     private void actionEditContact()
     {
-        Intent intent = new Intent(getActivity(), AddEditContact.class);
-        intent.putExtra(Constant._KEY_ID_CONTACT, _idContact);
-        startActivityForResult(intent, Constant._REQUEST_EDIT_CONTACT);
+        //Intent intent = new Intent(getActivity(), AddEditContact.class);
+        //intent.putExtra(Constant._KEY_ID_CONTACT, _idContact);
+        //startActivityForResult(intent, Constant._REQUEST_EDIT_CONTACT);
     }
 
     @Override

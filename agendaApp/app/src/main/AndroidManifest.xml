@@ -19,8 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".crudcontact.AddEditContact" android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity android:name=".crudcontact.DetailContactActivity" android:configChanges="orientation|keyboardHidden|screenSize"></activity>
     </application>
 
 </manifest>

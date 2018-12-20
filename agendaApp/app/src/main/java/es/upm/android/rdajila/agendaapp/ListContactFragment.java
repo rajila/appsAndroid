@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,8 +24,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import es.upm.android.rdajila.agendaapp.contract.ContactContract;
-import es.upm.android.rdajila.agendaapp.crudcontact.AddEditContact;
-import es.upm.android.rdajila.agendaapp.crudcontact.DetailContactActivity;
 import es.upm.android.rdajila.agendaapp.data.ContactBookDbHelper;
 import es.upm.android.rdajila.agendaapp.util.Constant;
 import es.upm.android.rdajila.agendaapp.util.Util;
@@ -95,8 +92,8 @@ public class ListContactFragment extends Fragment
      */
     private void actionAddContact()
     {
-        Intent _intentView = new Intent( getActivity(), AddEditContact.class );
-        startActivityForResult( _intentView, Constant._REQUEST_ADD_CONTACT ); // Constant._REQUEST_ADD_CONTACT valor del resultCode
+        //Intent _intentView = new Intent( getActivity(), AddEditContact.class );
+        //startActivityForResult( _intentView, Constant._REQUEST_ADD_CONTACT ); // Constant._REQUEST_ADD_CONTACT valor del resultCode
     }
 
     /**
@@ -105,9 +102,9 @@ public class ListContactFragment extends Fragment
      */
     private void showDetailScreen(String idContact)
     {
-        Intent intent = new Intent(getActivity(), DetailContactActivity.class);
-        intent.putExtra(Constant._KEY_ID_CONTACT, idContact);
-        startActivityForResult(intent, Constant._REQUEST_SHOW_CONTACT);
+        //Intent intent = new Intent(getActivity(), DetailContactActivity.class);
+        //intent.putExtra(Constant._KEY_ID_CONTACT, idContact);
+        //startActivityForResult(intent, Constant._REQUEST_SHOW_CONTACT);
     }
 
     @Override
