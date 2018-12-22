@@ -126,14 +126,19 @@ public class DetailContactFragment extends Fragment
 
         _lblName = (TextView) _viewLayout.findViewById(R.id._lblName);
 
-        //_btnCall = (FloatingActionButton)getActivity().findViewById(R.id._btnCall);
+        _btnCall = (FloatingActionButton)_viewLayout.findViewById(R.id._btnCall);
+        Drawable buttonDrawable = _btnCall.getBackground();
+        buttonDrawable = DrawableCompat.wrap(buttonDrawable);
+        //the color is a direct color int and not a color resource
+        DrawableCompat.setTint(buttonDrawable, Color.BLACK);
+        _btnCall.setBackground(buttonDrawable);
         //_btnCall.setOnClickListener(new View.OnClickListener() {
         //    @Override
         //    public void onClick(View v) { actionCall(); }
         //});
 
         // Carga los datos del contacto
-        loadDetailContact();
+        if(_idContact != null )loadDetailContact();
 
         return _viewLayout;
     }
