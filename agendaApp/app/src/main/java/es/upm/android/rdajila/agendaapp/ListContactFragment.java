@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -16,6 +17,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import es.upm.android.rdajila.agendaapp.contract.ContactContract;
+import es.upm.android.rdajila.agendaapp.crudcontact.DetailContactFragment;
 import es.upm.android.rdajila.agendaapp.data.ContactBookDbHelper;
 import es.upm.android.rdajila.agendaapp.util.Constant;
 import es.upm.android.rdajila.agendaapp.util.Util;
@@ -63,8 +67,6 @@ public class ListContactFragment extends Fragment
         _listContact = (ListView) _viewLayout.findViewById(R.id._listData);
         _contactAdaptador = new ContactCursorAdapter(getActivity(),null);
         _listContact.setAdapter(_contactAdaptador);
-        //_listContact.setDivider(new ColorDrawable(0x99F10529));   //0xAARRGGBB
-        //_listContact.setDivider(new ColorDrawable(getActivity().getResources().getColor(R.color.colorG)));
         _listContact.setDivider(getActivity().getResources().getDrawable(R.drawable.divider));
         _listContact.setDividerHeight(1);
 
@@ -102,9 +104,31 @@ public class ListContactFragment extends Fragment
      */
     private void showDetailScreen(String idContact)
     {
-        //Intent intent = new Intent(getActivity(), DetailContactActivity.class);
-        //intent.putExtra(Constant._KEY_ID_CONTACT, idContact);
-        //startActivityForResult(intent, Constant._REQUEST_SHOW_CONTACT);
+        int _orientation = getActivity().getResources().getConfiguration().orientation;
+        DetailContactFragment _fragment = new DetailContactFragment();
+        Bundle args = new Bundle();
+        args.putString(Constant._KEY_ID_CONTACT, idContact);
+        _fragment.setArguments(args);
+
+        if( _orientation == Configuration.ORIENTATION_PORTRAIT )
+            loadFragmentScreenWithBackStack(_fragment, R.id._frgList);
+        if( _orientation == Configuration.ORIENTATION_LANDSCAPE )
+            loadFragmentScreenWithOutBackStack(_fragment, R.id._frgDynamic);
+    }
+
+    private void loadFragmentScreenWithBackStack(Fragment fragment, int resource)
+    {
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(resource, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void loadFragmentScreenWithOutBackStack(Fragment fragment, int resource)
+    {
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(resource, fragment)
+                .commit();
     }
 
     @Override
@@ -177,6 +201,18 @@ public class ListContactFragment extends Fragment
             //} else {
                 // Mostrar empty state
             //}
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        int _orientation = getActivity().getResources().getConfiguration().orientation;
+        if( _orientation == Configuration.ORIENTATION_PORTRAIT )
+        {
+            super.onCreateOptionsMenu(menu, inflater);
+            menu.clear();
+            inflater.inflate(R.menu.menu_main, menu);
         }
     }
 

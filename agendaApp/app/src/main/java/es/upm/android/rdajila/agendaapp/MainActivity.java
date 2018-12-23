@@ -38,10 +38,12 @@ public class MainActivity extends AppCompatActivity
                 _layoutInicio.setVisibility(View.GONE);
                 _layoutPrincipal.setBackgroundColor(getResources().getColor(R.color.colorBlanco));
                 _toolbarApp.setVisibility(View.VISIBLE);
+                _toolbarApp.setTitle(R.string.app_name);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 showHorizontal();
-                //getSupportFragmentManager().beginTransaction()
-                //        .add(R.id._contenidoLayout, new ListContactFragment())
-                //        .commit();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id._frgList, new ListContactFragment())
+                        .commit();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        menu.clear();
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -85,5 +88,14 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id._frgDynamic, new DetailContactFragment())
                     .commit();
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp()
+    {
+        _toolbarApp.setTitle(R.string.app_name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        onBackPressed();
+        return true;
     }
 }

@@ -2,6 +2,7 @@ package es.upm.android.rdajila.agendaapp.crudcontact;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,8 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,8 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+import es.upm.android.rdajila.agendaapp.ListContactFragment;
+import es.upm.android.rdajila.agendaapp.MainActivity;
 import es.upm.android.rdajila.agendaapp.R;
 import es.upm.android.rdajila.agendaapp.data.ContactBookDbHelper;
 import es.upm.android.rdajila.agendaapp.entity.Contact;
@@ -61,6 +66,10 @@ public class DetailContactFragment extends Fragment
     private TextView _valueName;
 
     private TextView _lblName;
+    private TextView _lblAdress;
+    private TextView _lblMobile;
+    private TextView _lblPhone;
+    private TextView _lblEmail;
 
     private FloatingActionButton _btnCall;
 
@@ -72,19 +81,24 @@ public class DetailContactFragment extends Fragment
         {
             _idContact = getArguments().getString(Constant._KEY_ID_CONTACT);
         }
-
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        int _orientation = getActivity().getResources().getConfiguration().orientation;
         _db = new ContactBookDbHelper(getActivity());
         // Inflate the layout for this fragment
         View _viewLayout = inflater.inflate(R.layout.fragment_detail_contact, container, false);
 
         //_mCollapsingView = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
         _toolbarApp = (Toolbar) getActivity().findViewById(R.id._toolbarApp);
+        if( _orientation == Configuration.ORIENTATION_PORTRAIT )
+        {
+            _toolbarApp.setTitle(R.string.title_detail_contact);
+            ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         //_appBar = (AppBarLayout) getActivity().findViewById(R.id.app_bar);
         /*_appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
@@ -125,6 +139,10 @@ public class DetailContactFragment extends Fragment
         _valueName = (TextView) _viewLayout.findViewById(R.id._valueName);
 
         _lblName = (TextView) _viewLayout.findViewById(R.id._lblName);
+        _lblAdress = (TextView) _viewLayout.findViewById(R.id._lblAdress);
+        _lblMobile = (TextView) _viewLayout.findViewById(R.id._lblMobile);
+        _lblPhone = (TextView) _viewLayout.findViewById(R.id._lblPhone);
+        _lblEmail = (TextView) _viewLayout.findViewById(R.id._lblEmail);
 
         _btnCall = (FloatingActionButton)_viewLayout.findViewById(R.id._btnCall);
         Drawable buttonDrawable = _btnCall.getBackground();
@@ -143,6 +161,13 @@ public class DetailContactFragment extends Fragment
         return _viewLayout;
     }
 
+    //@Override
+    //public boolean onCreateOptionsMenu(Menu menu)
+    //{
+    //    getActivity().getMenuInflater().inflate(R.menu.menu_detail, menu);
+    //    return super.onCreateOptionsMenu(menu);
+    //}
+
     /**
      * Función que ejecuta la tarea que carga los datos del contacto
      */
@@ -157,19 +182,25 @@ public class DetailContactFragment extends Fragment
      */
     private void showDetailContact(Contact data)
     {
-        _mCollapsingView.setTitle(data.get_name());
+        //_mCollapsingView.setTitle(data.get_name());
         _valueName.setText(data.get_name());
         _valueAdress.setText(data.get_adress());
         _valueMobile.setText(data.get_mobile());
         _valuePhone.setText(data.get_phone());
         _valueEmail.setText(data.get_email());
 
+        _lblName.setTextColor(data.get_color());
+        _lblAdress.setTextColor(data.get_color());
+        _lblMobile.setTextColor(data.get_color());
+        _lblPhone.setTextColor(data.get_color());
+        _lblEmail.setTextColor(data.get_color());
+
         Drawable buttonDrawable = _btnCall.getBackground();
         buttonDrawable = DrawableCompat.wrap(buttonDrawable);
         //the color is a direct color int and not a color resource
         DrawableCompat.setTint(buttonDrawable, data.get_color());
         _btnCall.setBackground(buttonDrawable);
-        _mCollapsingView.setBackgroundColor(data.get_color());
+        //_mCollapsingView.setBackgroundColor(data.get_color());
         _movilDB = data.get_mobile();
         _nameDB = data.get_name();
         _colorDB = data.get_color();
@@ -212,9 +243,22 @@ public class DetailContactFragment extends Fragment
         if ( !requery )
             showDeleteContactDBError();
         else{
-            getActivity().setResult(Activity.RESULT_OK);
-            getActivity().finish();
+            //getActivity().setResult(Activity.RESULT_OK);
+            //((MainActivity)getActivity()).onBackPressed();
+            showDeleteMessage();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id._frgList, new ListContactFragment())
+                    .commit();
+            //getActivity().finish();
         }
+    }
+
+    /**
+     * Mensaje de borrado exitoso
+     */
+    private void showDeleteMessage()
+    {
+        Toast.makeText(getActivity(), R.string.msn_delete_contact, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -239,6 +283,18 @@ public class DetailContactFragment extends Fragment
     private void showDeleteContactDBError()
     {
         Toast.makeText(getActivity(), R.string.msn_error_delete_data, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        int _orientation = getActivity().getResources().getConfiguration().orientation;
+        if( _orientation == Configuration.ORIENTATION_PORTRAIT )
+        {
+            super.onCreateOptionsMenu(menu, inflater);
+            menu.clear();
+            inflater.inflate(R.menu.menu_detail, menu);
+        }
     }
 
     @Override
