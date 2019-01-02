@@ -3,19 +3,24 @@ package es.upm.android.rdajila.agendaapp;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.support.v7.widget.Toolbar;
 
 import es.upm.android.rdajila.agendaapp.crudcontact.DetailContactFragment;
+import es.upm.android.rdajila.agendaapp.data.ContactBookDbHelper;
 
 
 public class MainActivity extends AppCompatActivity
 {
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    public static ContactBookDbHelper _dbMain = null;
 
     private RelativeLayout _layoutContenido;
     private RelativeLayout _layoutInicio;
@@ -56,6 +61,14 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if( _dbMain == null ) _dbMain = new ContactBookDbHelper(this);
+
+        if(this.getSupportFragmentManager() != null)
+        {
+            FragmentManager fm = this.getSupportFragmentManager();
+            for(int i = 0; i < fm.getBackStackEntryCount(); ++i) fm.popBackStack();
+        }
+
         _layoutPrincipal = (RelativeLayout)findViewById(R.id._contenedorPrincipal);
         _layoutInicio = (RelativeLayout) findViewById(R.id._contenidoInicio);
         _layoutContenido = (RelativeLayout) findViewById(R.id._contenidoLayout);
@@ -80,7 +93,15 @@ public class MainActivity extends AppCompatActivity
     {
         int _orientation = this.getResources().getConfiguration().orientation;
         if( _orientation == Configuration.ORIENTATION_PORTRAIT )
+        {
             _layoutFrgDynamic.setVisibility(View.GONE);
+            if(getSupportFragmentManager().findFragmentById(R.id._frgDynamic) != null)
+            {
+                getSupportFragmentManager()
+                        .beginTransaction().
+                        remove(getSupportFragmentManager().findFragmentById(R.id._frgDynamic)).commit();
+            }
+        }
         if( _orientation == Configuration.ORIENTATION_LANDSCAPE )
         {
             _layoutFrgDynamic.setVisibility(View.VISIBLE);

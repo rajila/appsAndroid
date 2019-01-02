@@ -1,21 +1,28 @@
 package es.upm.android.rdajila.agendaapp.crudcontact;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import es.upm.android.rdajila.agendaapp.ListContactFragment;
+import es.upm.android.rdajila.agendaapp.MainActivity;
 import es.upm.android.rdajila.agendaapp.R;
 import es.upm.android.rdajila.agendaapp.data.ContactBookDbHelper;
 import es.upm.android.rdajila.agendaapp.entity.Contact;
@@ -40,6 +47,7 @@ public class AddEditContactFragment extends Fragment
     private String _idContact = null;
 
     private Button _btnAceptar;
+    private Toolbar _toolbarApp;
 
     private TextInputLayout _tilName;
     private EditText _fieldName;
@@ -64,14 +72,20 @@ public class AddEditContactFragment extends Fragment
         {
             _idContact = getArguments().getString(Constant._KEY_ID_CONTACT);
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        int _orientation = getActivity().getResources().getConfiguration().orientation;
+
         _db = new ContactBookDbHelper(getActivity());
         // Inflate the layout for this fragment
         View _viewLayout = inflater.inflate(R.layout.fragment_add_edit_contact, container, false);
+        _toolbarApp = (Toolbar) getActivity().findViewById(R.id._toolbarApp);
+        if( _orientation == Configuration.ORIENTATION_PORTRAIT ) ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //if( _orientation == Configuration.ORIENTATION_LANDSCAPE ) ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         _btnAceptar = (Button) _viewLayout.findViewById(R.id._btnSave);
         _btnAceptar.setOnClickListener(new View.OnClickListener() {
@@ -145,9 +159,26 @@ public class AddEditContactFragment extends Fragment
         });
 
         // Carga de datos si existe el idContacto
-        if (_idContact != null) loadContactDB();
+        if (_idContact != null)
+        {
+            _toolbarApp.setTitle(R.string.title_edit_contact);
+            loadContactDB();
+        }else
+            _toolbarApp.setTitle(R.string.title_add_contact);
 
         return _viewLayout;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        int _orientation = getActivity().getResources().getConfiguration().orientation;
+        if( _orientation == Configuration.ORIENTATION_PORTRAIT )
+        {
+            menu.clear();
+            super.onCreateOptionsMenu(menu, inflater);
+            inflater.inflate(R.menu.menu_form_contact, menu);
+        }
     }
 
     /**
@@ -210,12 +241,28 @@ public class AddEditContactFragment extends Fragment
     private void showListContactScreen(Boolean requery)
     {
         if ( !requery )
-        {
             showAddEditError();
-            getActivity().setResult(Activity.RESULT_CANCELED);
-        } else getActivity().setResult(Activity.RESULT_OK);
+        else{
+            showUpdatedMessage();
+            _toolbarApp.setTitle(R.string.app_name);
+            if(getActivity().getSupportFragmentManager() != null)
+            {
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) fm.popBackStack();
+            }
+            ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id._frgList, new ListContactFragment())
+                    .commit();
+        }
+    }
 
-        getActivity().finish();
+    /**
+     * Mensaje de actualización exitosa
+     */
+    private void showUpdatedMessage()
+    {
+        Toast.makeText(getActivity(), R.string.msn_update_contact, Toast.LENGTH_SHORT).show();
     }
 
     /**

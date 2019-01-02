@@ -4,7 +4,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import es.upm.android.rdajila.agendaapp.ListContactFragment;
 import es.upm.android.rdajila.agendaapp.contract.ContactContract;
 import es.upm.android.rdajila.agendaapp.entity.Contact;
 
@@ -13,6 +15,8 @@ import es.upm.android.rdajila.agendaapp.entity.Contact;
  */
 public class ContactBookDbHelper extends SQLiteOpenHelper
 {
+    private static final String TAG = ContactBookDbHelper.class.getSimpleName();
+
     private static final int _VERSION = 1;
     private static final String _NAME = "ContactBookDb.db";
 
@@ -102,6 +106,24 @@ public class ContactBookDbHelper extends SQLiteOpenHelper
                         null,
                         null,
                         null);
+    }
+
+    /**
+     * Obtiene todos los contactos
+     * @return
+     */
+    public Cursor getFirstContact()
+    {
+        return getReadableDatabase()
+                .query(
+                        ContactContract._TABLE_NAME,
+                        ContactContract._GET_ALL_DATA,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        "1");
     }
 
     /**

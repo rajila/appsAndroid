@@ -13,6 +13,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -88,7 +89,7 @@ public class DetailContactFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         int _orientation = getActivity().getResources().getConfiguration().orientation;
-        _db = new ContactBookDbHelper(getActivity());
+        _db = MainActivity._dbMain;
         // Inflate the layout for this fragment
         View _viewLayout = inflater.inflate(R.layout.fragment_detail_contact, container, false);
 
@@ -156,17 +157,10 @@ public class DetailContactFragment extends Fragment
         //});
 
         // Carga los datos del contacto
-        if(_idContact != null )loadDetailContact();
+        loadDetailContact();
 
         return _viewLayout;
     }
-
-    //@Override
-    //public boolean onCreateOptionsMenu(Menu menu)
-    //{
-    //    getActivity().getMenuInflater().inflate(R.menu.menu_detail, menu);
-    //    return super.onCreateOptionsMenu(menu);
-    //}
 
     /**
      * Función que ejecuta la tarea que carga los datos del contacto
@@ -224,6 +218,31 @@ public class DetailContactFragment extends Fragment
         //Intent intent = new Intent(getActivity(), AddEditContact.class);
         //intent.putExtra(Constant._KEY_ID_CONTACT, _idContact);
         //startActivityForResult(intent, Constant._REQUEST_EDIT_CONTACT);
+        int _orientation = getActivity().getResources().getConfiguration().orientation;
+        AddEditContactFragment _fragment = new AddEditContactFragment();
+        Bundle args = new Bundle();
+        args.putString(Constant._KEY_ID_CONTACT, _idContact);
+        _fragment.setArguments(args);
+
+        if( _orientation == Configuration.ORIENTATION_PORTRAIT )
+            loadFragmentScreenWithBackStack(_fragment, R.id._frgList);
+        if( _orientation == Configuration.ORIENTATION_LANDSCAPE )
+            loadFragmentScreenWithOutBackStack(_fragment, R.id._frgDynamic);
+    }
+
+    private void loadFragmentScreenWithBackStack(Fragment fragment, int resource)
+    {
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(resource, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void loadFragmentScreenWithOutBackStack(Fragment fragment, int resource)
+    {
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(resource, fragment)
+                .commit();
     }
 
     @Override
@@ -243,13 +262,15 @@ public class DetailContactFragment extends Fragment
         if ( !requery )
             showDeleteContactDBError();
         else{
-            //getActivity().setResult(Activity.RESULT_OK);
-            //((MainActivity)getActivity()).onBackPressed();
             showDeleteMessage();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id._frgList, new ListContactFragment())
-                    .commit();
-            //getActivity().finish();
+            //_toolbarApp.setTitle(R.string.app_name);
+            //((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            //getActivity().getSupportFragmentManager().beginTransaction()
+            //        .replace(R.id._frgList, new ListContactFragment())
+            //        .commit();
+            _toolbarApp.setTitle(R.string.app_name);
+            ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getActivity().onBackPressed();
         }
     }
 
@@ -291,8 +312,8 @@ public class DetailContactFragment extends Fragment
         int _orientation = getActivity().getResources().getConfiguration().orientation;
         if( _orientation == Configuration.ORIENTATION_PORTRAIT )
         {
-            super.onCreateOptionsMenu(menu, inflater);
             menu.clear();
+            super.onCreateOptionsMenu(menu, inflater);
             inflater.inflate(R.menu.menu_detail, menu);
         }
     }
@@ -305,7 +326,7 @@ public class DetailContactFragment extends Fragment
                 actionEditContact();
                 break;
             case R.id._menuDelete: // Eliminar
-                new DeleteContactTask().execute();
+                if(_idContact != null ) new DeleteContactTask().execute();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -317,8 +338,13 @@ public class DetailContactFragment extends Fragment
     private class GetContactByIdTask extends AsyncTask<Void, Void, Cursor>
     {
         @Override
-        protected Cursor doInBackground(Void... voids) {
-            return _db.getContactById(_idContact);
+        protected Cursor doInBackground(Void... voids)
+        {
+            if(_idContact != null )
+                return _db.getContactById(_idContact);
+            else{
+                return _db.getFirstContact();
+            }
         }
 
         @Override
@@ -336,7 +362,6 @@ public class DetailContactFragment extends Fragment
      */
     private class DeleteContactTask extends AsyncTask<Void, Void, Integer>
     {
-
         @Override
         protected Integer doInBackground(Void... voids) {
             return _db.deleteContact(_idContact);
@@ -344,7 +369,7 @@ public class DetailContactFragment extends Fragment
 
         @Override
         protected void onPostExecute(Integer integer) {
-            showListContactScreen(integer > 0);
+            showListContactScreen(integer > 0 );
         }
 
     }

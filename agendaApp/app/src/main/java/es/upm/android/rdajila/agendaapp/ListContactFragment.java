@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import es.upm.android.rdajila.agendaapp.contract.ContactContract;
+import es.upm.android.rdajila.agendaapp.crudcontact.AddEditContactFragment;
 import es.upm.android.rdajila.agendaapp.crudcontact.DetailContactFragment;
 import es.upm.android.rdajila.agendaapp.data.ContactBookDbHelper;
 import es.upm.android.rdajila.agendaapp.util.Constant;
@@ -61,7 +62,7 @@ public class ListContactFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        _db = new ContactBookDbHelper(getActivity());
+        _db = MainActivity._dbMain;
         // Inflate the layout for this fragment
         View _viewLayout = inflater.inflate(R.layout.fragment_list_contact, container, false);
         _listContact = (ListView) _viewLayout.findViewById(R.id._listData);
@@ -96,7 +97,15 @@ public class ListContactFragment extends Fragment
     {
         //Intent _intentView = new Intent( getActivity(), AddEditContact.class );
         //startActivityForResult( _intentView, Constant._REQUEST_ADD_CONTACT ); // Constant._REQUEST_ADD_CONTACT valor del resultCode
+        int _orientation = getActivity().getResources().getConfiguration().orientation;
+        AddEditContactFragment _fragment = new AddEditContactFragment();
+        if( _orientation == Configuration.ORIENTATION_PORTRAIT )
+            loadFragmentScreenWithBackStack(_fragment, R.id._frgList);
+        if( _orientation == Configuration.ORIENTATION_LANDSCAPE )
+            loadFragmentScreenWithOutBackStack(_fragment, R.id._frgDynamic);
     }
+
+
 
     /**
      * Función que levanta la actividad Detalle Contacto
