@@ -122,7 +122,25 @@ public class ContactBookDbHelper extends SQLiteOpenHelper
                         null,
                         null,
                         null,
+                        ContactContract._ID+" ASC",
+                        "1");
+    }
+
+    /**
+     * Obtiene todos los contactos
+     * @return
+     */
+    public Cursor getLastContact()
+    {
+        return getReadableDatabase()
+                .query(
+                        ContactContract._TABLE_NAME,
+                        ContactContract._GET_ALL_DATA,
                         null,
+                        null,
+                        null,
+                        null,
+                        ContactContract._ID+" DESC",
                         "1");
     }
 

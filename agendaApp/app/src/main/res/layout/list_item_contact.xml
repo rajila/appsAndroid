@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="72dp"
-        android:text="@string/value_default"
         android:textAppearance="?textAppearanceListItem"
         tools:text="@string/value_default" />
 

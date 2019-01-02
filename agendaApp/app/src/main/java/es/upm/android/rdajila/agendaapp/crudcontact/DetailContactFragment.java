@@ -57,9 +57,6 @@ public class DetailContactFragment extends Fragment
     private int _colorDB = 000000;
 
     private Toolbar _toolbarApp;
-    private AppBarLayout _appBar;
-
-    private CollapsingToolbarLayout _mCollapsingView;
     private TextView _valueAdress;
     private TextView _valueMobile;
     private TextView _valuePhone;
@@ -73,6 +70,8 @@ public class DetailContactFragment extends Fragment
     private TextView _lblEmail;
 
     private FloatingActionButton _btnCall;
+    private FloatingActionButton _btnEditL;
+    private FloatingActionButton _btnDeleteL;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -93,45 +92,12 @@ public class DetailContactFragment extends Fragment
         // Inflate the layout for this fragment
         View _viewLayout = inflater.inflate(R.layout.fragment_detail_contact, container, false);
 
-        //_mCollapsingView = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
         _toolbarApp = (Toolbar) getActivity().findViewById(R.id._toolbarApp);
         if( _orientation == Configuration.ORIENTATION_PORTRAIT )
         {
             _toolbarApp.setTitle(R.string.title_detail_contact);
             ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        //_appBar = (AppBarLayout) getActivity().findViewById(R.id.app_bar);
-        /*_appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
-            @Override
-            public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                Log.i("STATE", state.name());
-                if( state == State.COLLAPSED )
-                {
-                    _mCollapsingView.setTitle(getActivity().getResources().getString(R.string.title_detail_contact));
-                    _lblName.setVisibility(View.VISIBLE);
-                    _valueName.setVisibility(View.VISIBLE);
-
-                    Drawable buttonDrawable = _btnCall.getBackground();
-                    buttonDrawable = DrawableCompat.wrap(buttonDrawable);
-                    //the color is a direct color int and not a color resource
-                    DrawableCompat.setTint(buttonDrawable, Color.BLACK);
-                    _btnCall.setBackground(buttonDrawable);
-                }
-                if ( state == State.EXPANDED || state == State.IDLE )
-                {
-                    _mCollapsingView.setTitle(_nameDB);
-                    _lblName.setVisibility(View.GONE);
-                    _valueName.setVisibility(View.GONE);
-
-                    Drawable buttonDrawable = _btnCall.getBackground();
-                    buttonDrawable = DrawableCompat.wrap(buttonDrawable);
-                    //the color is a direct color int and not a color resource
-                    DrawableCompat.setTint(buttonDrawable, _colorDB);
-                    _btnCall.setBackground(buttonDrawable);
-                }
-
-            }
-        });*/
 
         _valueAdress = (TextView) _viewLayout.findViewById(R.id._valueAdress);
         _valueMobile = (TextView) _viewLayout.findViewById(R.id._valueMobile);
@@ -146,15 +112,44 @@ public class DetailContactFragment extends Fragment
         _lblEmail = (TextView) _viewLayout.findViewById(R.id._lblEmail);
 
         _btnCall = (FloatingActionButton)_viewLayout.findViewById(R.id._btnCall);
+        _btnEditL = (FloatingActionButton)_viewLayout.findViewById(R.id._btnEditL);
+        _btnDeleteL = (FloatingActionButton)_viewLayout.findViewById(R.id._btnDeleteL);
+        if( _orientation == Configuration.ORIENTATION_PORTRAIT )
+        {
+            _btnEditL.hide();
+            _btnDeleteL.hide();
+        }
+        if( _orientation == Configuration.ORIENTATION_LANDSCAPE )
+        {
+            _btnEditL.show();
+            _btnDeleteL.show();
+        }
         Drawable buttonDrawable = _btnCall.getBackground();
         buttonDrawable = DrawableCompat.wrap(buttonDrawable);
-        //the color is a direct color int and not a color resource
         DrawableCompat.setTint(buttonDrawable, Color.BLACK);
         _btnCall.setBackground(buttonDrawable);
-        //_btnCall.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) { actionCall(); }
-        //});
+        _btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { actionCall(); }
+        });
+
+        Drawable buttonDrawableEditL = _btnEditL.getBackground();
+        buttonDrawableEditL = DrawableCompat.wrap(buttonDrawableEditL);
+        DrawableCompat.setTint(buttonDrawableEditL, Color.BLACK);
+        _btnEditL.setBackground(buttonDrawableEditL);
+        _btnEditL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { actionEditContact();}
+        });
+
+        Drawable buttonDrawableDeleteL = _btnEditL.getBackground();
+        buttonDrawableDeleteL = DrawableCompat.wrap(buttonDrawableDeleteL);
+        DrawableCompat.setTint(buttonDrawableDeleteL, Color.BLACK);
+        _btnDeleteL.setBackground(buttonDrawableDeleteL);
+        _btnDeleteL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { new DeleteContactTask().execute(); }
+        });
 
         // Carga los datos del contacto
         loadDetailContact();
@@ -176,7 +171,7 @@ public class DetailContactFragment extends Fragment
      */
     private void showDetailContact(Contact data)
     {
-        //_mCollapsingView.setTitle(data.get_name());
+        _idContact = Long.toString(data.get_id());
         _valueName.setText(data.get_name());
         _valueAdress.setText(data.get_adress());
         _valueMobile.setText(data.get_mobile());
@@ -191,10 +186,18 @@ public class DetailContactFragment extends Fragment
 
         Drawable buttonDrawable = _btnCall.getBackground();
         buttonDrawable = DrawableCompat.wrap(buttonDrawable);
-        //the color is a direct color int and not a color resource
         DrawableCompat.setTint(buttonDrawable, data.get_color());
         _btnCall.setBackground(buttonDrawable);
-        //_mCollapsingView.setBackgroundColor(data.get_color());
+
+        Drawable buttonDrawableL = _btnEditL.getBackground();
+        buttonDrawableL = DrawableCompat.wrap(buttonDrawableL);
+        DrawableCompat.setTint(buttonDrawableL, data.get_color());
+        _btnEditL.setBackground(buttonDrawableL);
+
+        Drawable buttonDrawableDL = _btnDeleteL.getBackground();
+        buttonDrawableDL = DrawableCompat.wrap(buttonDrawableDL);
+        DrawableCompat.setTint(buttonDrawableDL, data.get_color());
+        _btnDeleteL.setBackground(buttonDrawableDL);
         _movilDB = data.get_mobile();
         _nameDB = data.get_name();
         _colorDB = data.get_color();
@@ -215,9 +218,6 @@ public class DetailContactFragment extends Fragment
      */
     private void actionEditContact()
     {
-        //Intent intent = new Intent(getActivity(), AddEditContact.class);
-        //intent.putExtra(Constant._KEY_ID_CONTACT, _idContact);
-        //startActivityForResult(intent, Constant._REQUEST_EDIT_CONTACT);
         int _orientation = getActivity().getResources().getConfiguration().orientation;
         AddEditContactFragment _fragment = new AddEditContactFragment();
         Bundle args = new Bundle();
@@ -245,32 +245,26 @@ public class DetailContactFragment extends Fragment
                 .commit();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == Constant._REQUEST_EDIT_CONTACT) {
-            if (resultCode == Activity.RESULT_OK)
-            {
-                getActivity().setResult(Constant._REQUEST_EDIT_CONTACT);
-                getActivity().finish();
-            }
-        }
-    }
-
     private void showListContactScreen(boolean requery)
     {
+        int _orientation = getActivity().getResources().getConfiguration().orientation;
         if ( !requery )
             showDeleteContactDBError();
         else{
             showDeleteMessage();
-            //_toolbarApp.setTitle(R.string.app_name);
-            //((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            //getActivity().getSupportFragmentManager().beginTransaction()
-            //        .replace(R.id._frgList, new ListContactFragment())
-            //        .commit();
             _toolbarApp.setTitle(R.string.app_name);
             ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            getActivity().onBackPressed();
+            if( _orientation == Configuration.ORIENTATION_PORTRAIT ) getActivity().onBackPressed();
+            if( _orientation == Configuration.ORIENTATION_LANDSCAPE )
+            {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id._frgList, new ListContactFragment())
+                        .commit();
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id._frgDynamic, new DetailContactFragment())
+                        .commit();
+            }
         }
     }
 
@@ -352,7 +346,9 @@ public class DetailContactFragment extends Fragment
             if (cursor != null && cursor.moveToLast()) {
                 showDetailContact(new Contact(cursor));
             } else {
-                showLoadContactDBError();
+                _btnEditL.hide();
+                _btnDeleteL.hide();
+                _btnCall.hide();
             }
         }
     }

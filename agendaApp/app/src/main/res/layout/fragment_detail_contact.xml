@@ -138,4 +138,40 @@
         app:backgroundTint="@android:color/white"
         app:fabSize="normal"
         app:srcCompat="@drawable/ic_telefono" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/_btnEditL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="144dp"
+        android:backgroundTint="@android:color/white"
+        android:tint="@android:color/white"
+        app:backgroundTint="@android:color/white"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_pencil"
+        tools:ignore="VectorDrawableCompat" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/_btnDeleteL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="80dp"
+        android:backgroundTint="@android:color/white"
+        android:tint="@android:color/white"
+        app:backgroundTint="@android:color/white"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_delete"
+        tools:ignore="VectorDrawableCompat" />
 </FrameLayout>

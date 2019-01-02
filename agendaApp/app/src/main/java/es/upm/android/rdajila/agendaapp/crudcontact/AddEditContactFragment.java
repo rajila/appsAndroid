@@ -80,12 +80,11 @@ public class AddEditContactFragment extends Fragment
     {
         int _orientation = getActivity().getResources().getConfiguration().orientation;
 
-        _db = new ContactBookDbHelper(getActivity());
+        _db = MainActivity._dbMain;
         // Inflate the layout for this fragment
         View _viewLayout = inflater.inflate(R.layout.fragment_add_edit_contact, container, false);
         _toolbarApp = (Toolbar) getActivity().findViewById(R.id._toolbarApp);
         if( _orientation == Configuration.ORIENTATION_PORTRAIT ) ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //if( _orientation == Configuration.ORIENTATION_LANDSCAPE ) ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         _btnAceptar = (Button) _viewLayout.findViewById(R.id._btnSave);
         _btnAceptar.setOnClickListener(new View.OnClickListener() {
@@ -161,10 +160,13 @@ public class AddEditContactFragment extends Fragment
         // Carga de datos si existe el idContacto
         if (_idContact != null)
         {
-            _toolbarApp.setTitle(R.string.title_edit_contact);
+            if( _orientation == Configuration.ORIENTATION_LANDSCAPE ) _toolbarApp.setTitle(R.string.app_name);
+            else _toolbarApp.setTitle(R.string.title_edit_contact);
             loadContactDB();
-        }else
-            _toolbarApp.setTitle(R.string.title_add_contact);
+        }else{
+            if( _orientation == Configuration.ORIENTATION_LANDSCAPE ) _toolbarApp.setTitle(R.string.app_name);
+            else _toolbarApp.setTitle(R.string.title_add_contact);
+        }
 
         return _viewLayout;
     }
@@ -240,6 +242,7 @@ public class AddEditContactFragment extends Fragment
      */
     private void showListContactScreen(Boolean requery)
     {
+        int _orientation = getActivity().getResources().getConfiguration().orientation;
         if ( !requery )
             showAddEditError();
         else{
@@ -254,6 +257,18 @@ public class AddEditContactFragment extends Fragment
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id._frgList, new ListContactFragment())
                     .commit();
+
+            if( _orientation == Configuration.ORIENTATION_LANDSCAPE )
+            {
+                DetailContactFragment _fragment = new DetailContactFragment();
+                Bundle args = new Bundle();
+                args.putString(Constant._KEY_ID_CONTACT, _idContact);
+                _fragment.setArguments(args);
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id._frgDynamic, _fragment)
+                        .commit();
+            }
         }
     }
 
@@ -294,14 +309,18 @@ public class AddEditContactFragment extends Fragment
     private class AddEditContactTask extends AsyncTask<Contact, Void, Boolean>
     {
         @Override
-        protected Boolean doInBackground(Contact... contacts) {
+        protected Boolean doInBackground(Contact... contacts)
+        {
+            long _idTemp;
             if (_idContact != null)
             {
                 Log.i(TAG,"Update Contact");
-                return _db.updateContact(contacts[0], _idContact) > 0;
+                return  _db.updateContact(contacts[0], _idContact) > 0;
             } else {
                 Log.i(TAG,"Create new Contact");
-                return _db.insertContact(contacts[0]) > 0;
+                _idTemp = _db.insertContact(contacts[0]);
+                _idContact = Long.toString(_idTemp);
+                return _idTemp > 0;
             }
         }
 

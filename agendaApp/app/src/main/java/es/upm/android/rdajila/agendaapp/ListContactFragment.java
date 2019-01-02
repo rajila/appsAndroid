@@ -95,8 +95,6 @@ public class ListContactFragment extends Fragment
      */
     private void actionAddContact()
     {
-        //Intent _intentView = new Intent( getActivity(), AddEditContact.class );
-        //startActivityForResult( _intentView, Constant._REQUEST_ADD_CONTACT ); // Constant._REQUEST_ADD_CONTACT valor del resultCode
         int _orientation = getActivity().getResources().getConfiguration().orientation;
         AddEditContactFragment _fragment = new AddEditContactFragment();
         if( _orientation == Configuration.ORIENTATION_PORTRAIT )
@@ -104,8 +102,6 @@ public class ListContactFragment extends Fragment
         if( _orientation == Configuration.ORIENTATION_LANDSCAPE )
             loadFragmentScreenWithOutBackStack(_fragment, R.id._frgDynamic);
     }
-
-
 
     /**
      * Función que levanta la actividad Detalle Contacto
@@ -138,26 +134,6 @@ public class ListContactFragment extends Fragment
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(resource, fragment)
                 .commit();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (Activity.RESULT_OK == resultCode)
-        {
-            switch (requestCode)
-            {
-                case Constant._REQUEST_ADD_CONTACT:
-                    showSavedMessage();
-                    break;
-                case Constant._REQUEST_SHOW_CONTACT:
-                    showDeleteMessage();
-                    break;
-            }
-        }else if(Constant._REQUEST_EDIT_CONTACT == resultCode){
-            showUpdatedMessage();
-        }
-        loadContacts();
     }
 
     /**
@@ -205,11 +181,6 @@ public class ListContactFragment extends Fragment
         @Override
         protected void onPostExecute(Cursor cursor) {
             _contactAdaptador.swapCursor(cursor); // El adaptador de la lista pinta los datos en la lista
-            //if (cursor != null && cursor.getCount() > 0) {
-            //    _contactAdaptador.swapCursor(cursor);
-            //} else {
-                // Mostrar empty state
-            //}
         }
     }
 
@@ -226,7 +197,8 @@ public class ListContactFragment extends Fragment
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         switch ( item.getItemId() )
         {
             case R.id.action_import: // Importar los contactos
@@ -238,6 +210,13 @@ public class ListContactFragment extends Fragment
                         if( Util.importContactsJSON(_db) ) // Verifica que la importación se realizco correctamente
                         {
                             loadContacts();
+                            int _orientation = this.getResources().getConfiguration().orientation;
+                            if( _orientation == Configuration.ORIENTATION_LANDSCAPE )
+                            {
+                                getActivity().getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id._frgDynamic, new DetailContactFragment())
+                                        .commit();
+                            }
                             Toast.makeText(getActivity(), R.string.msn_import_ok, Toast.LENGTH_SHORT).show();
                         }else
                             Toast.makeText(getActivity(), R.string.msn_import_error, Toast.LENGTH_SHORT).show();
